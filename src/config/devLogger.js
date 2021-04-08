@@ -1,3 +1,4 @@
+require('express-async-errors');
 const { createLogger, format, transports } = require('winston');
 
 const logger = createLogger({
@@ -10,8 +11,8 @@ const logger = createLogger({
     format.json(),
     format.prettyPrint()
   ),
-  transports: [new transports.File({ filename: 'errors.log' })],
   transports: [
+    new transports.File({ filename: 'errors.log' }),
     new transports.Console({
       format: format.combine(format.colorize(), format.simple()),
     }),

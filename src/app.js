@@ -1,14 +1,13 @@
 require('dotenv').config();
 const express = require('express');
-require('express-async-errors');
-const Sentry = require('@sentry/node');
-const Tracing = require('@sentry/tracing');
 
 const app = express();
 
 // Startup Checks
 require('./config/startup')();
 // Prod Logger
+const Sentry = require('@sentry/node');
+const Tracing = require('@sentry/tracing');
 if (process.env.NODE_ENV === 'production') {
   Sentry.init({
     dsn: process.env.SENTRY,
