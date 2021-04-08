@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="NodeJS Auth API" />
+    <link rel="icon" href="./favicon.ico" />
+    <link rel="stylesheet" href="./css/style.css" />
+    <title>Node Auth Template</title>
+  </head>
+  <body>
+    <h1>Express Auth Template</h1>
+    <p>Welcome! This is a Basic Express Auth App Template.</p>
+
+    <h3>Register Form</h3>
+    <form id="register-form">
+      <label>Email:</label><br />
+      <input type="email" name="email" /><br />
+      <label>Password:</label><br />
+      <input type="password" name="password" /><br /><br />
+      <button type="submit">Register</button>
+    </form>
+
+    <br />
+    <hr />
+
+    <h3>Login Form</h3>
+    <form id="login-form">
+      <label>Email:</label><br />
+      <input type="email" name="email" /><br />
+      <label>Password:</label><br />
+      <input type="password" name="password" /><br /><br />
+      <button type="submit">Login</button>
+    </form>
+
+    <br />
+    <hr />
+    <br />
+
+    <button onclick="logout()">Logout</button>
+
+    <script>
+      // Logout (using 'onclick' event)
+      async function logout() {
+        try {
+          const res = await fetch('/api/logout', {
+            method: 'POST',
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      // Register Form (using 'addEventListener')
+      (() => {
+        const registerForm = document.getElementById('register-form');
+        registerForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            const values = Object.values(registerForm).reduce((obj, field) => {
+              if (field.name) {
+                obj[field.name] = field.value;
+              }
+              return obj;
+            }, {});
+            const res = await fetch('/api/register', {
+              method: 'POST',
+              body: JSON.stringify(values),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      })();
+      // Login Form (using 'addEventListener')
+      (() => {
+        const loginForm = document.getElementById('login-form');
+        loginForm.addEventListener('submit', async (e) => {
+          e.preventDefault();
+          try {
+            const values = Object.values(loginForm).reduce((obj, field) => {
+              if (field.name) {
+                obj[field.name] = field.value;
+              }
+              return obj;
+            }, {});
+            const res = await fetch('/api/auth', {
+              method: 'POST',
+              body: JSON.stringify(values),
+              headers: { 'Content-type': 'application/json; charset=UTF-8' },
+            });
+          } catch (error) {
+            console.log(error);
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
