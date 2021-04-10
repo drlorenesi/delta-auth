@@ -6,6 +6,7 @@ const userSchema = new mongoose.Schema(
       address: {
         type: String,
         required: true,
+        unique: true,
       },
       verified: {
         type: Boolean,
@@ -14,6 +15,7 @@ const userSchema = new mongoose.Schema(
     },
     password: {
       type: String,
+      minLength: 3,
       required: true,
     },
   },

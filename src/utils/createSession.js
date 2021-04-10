@@ -1,4 +1,5 @@
 const { randomBytes } = require('crypto');
+const Session = require('../models/session');
 
 module.exports = async function (userId, req) {
   try {
@@ -9,18 +10,14 @@ module.exports = async function (userId, req) {
       ip: req.ip,
       userAgent: req.headers['user-agent'],
     };
-    // Get 'sessions' collection from DB
-    const { sessions } = require('../config/collections');
-    // Insert new session into collection
-    await sessions.insertOne({
+    // Create session document and save
+    let session = new Session({
       sessionId,
       userId,
-      valid: true,
       userAgent: connectionInformation.userAgent,
       ip: connectionInformation.ip,
-      createdAt: new Date(),
-      updatedAt: new Date(),
     });
+    session = await session.save();
     // Return session id
     return sessionId;
   } catch (error) {

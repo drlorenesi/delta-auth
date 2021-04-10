@@ -39,12 +39,29 @@
 
     <button onclick="logout()">Logout</button>
 
+    <br />
+    <br />
+    <hr />
+    <br />
+
+    <button onclick="testLogin()">Test Login</button>
+
     <script>
       // Logout (using 'onclick' event)
       async function logout() {
         try {
           const res = await fetch('/api/logout', {
             method: 'POST',
+          });
+        } catch (error) {
+          console.log(error);
+        }
+      }
+      // Refresh (using 'onclick' event)
+      async function testLogin() {
+        try {
+          const res = await fetch('/api/test', {
+            method: 'GET',
           });
         } catch (error) {
           console.log(error);
