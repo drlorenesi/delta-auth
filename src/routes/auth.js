@@ -5,7 +5,6 @@ const { compare } = require('bcryptjs');
 const validate = require('../middleware/validate');
 const createSession = require('../utils/createSession');
 const createTokens = require('../utils/createTokens');
-const setCookies = require('../utils/setCookies');
 const User = require('../models/user');
 
 const validateLogin = (data) => {
@@ -31,10 +30,8 @@ router.post('/', [validate(validateLogin)], async (req, res) => {
     return res.status(400).send({ message: 'Invalid email or password.' });
   // Create Session
   const sessionId = await createSession(user._id, req);
-  // Create Tokens
-  const { accessToken, refreshToken } = createTokens(sessionId, user._id);
-  // Set Cookies
-  setCookies(accessToken, refreshToken, res);
+  // Create and set Tokens
+  createTokens(sessionId, user._id, res);
   res.status(200).send({ message: 'You are now logged in.' });
 });
 

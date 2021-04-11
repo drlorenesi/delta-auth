@@ -5,7 +5,6 @@ const { genSalt, hash } = require('bcryptjs');
 const validate = require('../middleware/validate');
 const createSession = require('../utils/createSession');
 const createTokens = require('../utils/createTokens');
-const setCookies = require('../utils/setCookies');
 const User = require('../models/user');
 
 const validateRegister = (data) => {
@@ -34,10 +33,8 @@ router.post('/', [validate(validateRegister)], async (req, res) => {
   user = await user.save();
   // Create Session
   const sessionId = await createSession(user._id, req);
-  // Create Tokens
-  const { accessToken, refreshToken } = createTokens(sessionId, user._id);
-  // Set Cookies
-  setCookies(accessToken, refreshToken, res);
+  // Create and set Tokens
+  createTokens(sessionId, user._id, res);
   res.status(201).send({ message: 'You are now logged in.' });
 });
 
