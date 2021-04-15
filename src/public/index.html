@@ -50,8 +50,9 @@
       // Logout (using 'onclick' event)
       async function logout() {
         try {
-          const res = await fetch('/api/logout', {
+          const res = await fetch('https://node-auth.development/api/logout', {
             method: 'POST',
+            credentials: 'include',
           });
         } catch (error) {
           console.log(error);
@@ -60,8 +61,9 @@
       // Refresh (using 'onclick' event)
       async function testLogin() {
         try {
-          const res = await fetch('/api/test', {
+          const res = await fetch('https://node-auth.development/api/test', {
             method: 'GET',
+            credentials: 'include',
           });
         } catch (error) {
           console.log(error);
@@ -79,12 +81,15 @@
               }
               return obj;
             }, {});
-            const res = await fetch('/api/register', {
-              method: 'POST',
-              body: JSON.stringify(values),
-              credentials: 'include',
-              headers: { 'Content-type': 'application/json; charset=UTF-8' },
-            });
+            const res = await fetch(
+              'https://node-auth.development/api/register',
+              {
+                method: 'POST',
+                body: JSON.stringify(values),
+                credentials: 'include',
+                headers: { 'Content-type': 'application/json; charset=UTF-8' },
+              }
+            );
           } catch (error) {
             console.log(error);
           }
@@ -102,7 +107,7 @@
               }
               return obj;
             }, {});
-            const res = await fetch('/api/auth', {
+            const res = await fetch('https://node-auth.development/api/auth', {
               method: 'POST',
               body: JSON.stringify(values),
               credentials: 'include',

@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Session = require('../models/session');
-const JWTSignature = process.env.JWT_SIGNATURE;
 
 router.post('/', [], async (req, res) => {
   // Check if refreshToken exits (with optional chaining to avoid server error)
@@ -10,7 +9,7 @@ router.post('/', [], async (req, res) => {
     // Get Refresh Token
     const { refreshToken } = req.cookies;
     // Decode access token
-    const { sessionId } = jwt.verify(refreshToken, JWTSignature);
+    const { sessionId } = jwt.verify(refreshToken, process.env.JWT_SIGNATURE);
     // Delete session from DB
     await Session.deleteOne({ sessionId });
   }

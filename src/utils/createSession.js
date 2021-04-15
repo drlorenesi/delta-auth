@@ -1,10 +1,10 @@
-const { randomBytes } = require('crypto');
+const nanoid = require('nanoid');
 const Session = require('../models/session');
 
 module.exports = async function (userId, req) {
   try {
     // Generate a session id
-    const sessionId = randomBytes(43).toString('hex');
+    const sessionId = nanoid();
     // Retrieve connection information from request object
     const connectionInformation = {
       ip: req.ip,

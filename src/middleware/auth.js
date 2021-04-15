@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const JWTSignature = process.env.JWT_SIGNATURE;
 const Session = require('../models/session');
 const User = require('../models/user');
 const createTokens = require('../utils/createTokens');
@@ -9,7 +8,10 @@ module.exports = async (req, res, next) => {
   if (req?.cookies?.accessToken) {
     console.log('accessToken detected...');
     // Decode access token
-    const decoded = jwt.verify(req.cookies.accessToken, JWTSignature);
+    const decoded = jwt.verify(
+      req.cookies.accessToken,
+      process.env.JWT_SIGNATURE
+    );
     // Do auth check with access token
     // Continue if everything is in order
     next();
@@ -18,7 +20,10 @@ module.exports = async (req, res, next) => {
   else if (req?.cookies?.refreshToken) {
     console.log('refreshToken detected...');
     // Decode access token
-    const { sessionId } = jwt.verify(req.cookies.refreshToken, JWTSignature);
+    const { sessionId } = jwt.verify(
+      req.cookies.refreshToken,
+      process.env.JWT_SIGNATURE
+    );
     // Get session info
     const session = await Session.findOne({ sessionId });
     if (!session || !session.valid)

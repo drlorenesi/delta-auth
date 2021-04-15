@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-module.exports = async function () {
+module.exports = async (name, email, activate) => {
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
   let testAccount = await nodemailer.createTestAccount();
@@ -16,19 +16,16 @@ module.exports = async function () {
     },
   });
 
-  // send mail with defined transport object
+  let link = `${process.env.BASE_URL}?x=${encodeURIComponent(
+    email
+  )}&y=${activate}`;
   let info = await transporter.sendMail({
-    from: '"Node Auth" <nodeauth@nodeauth.dev>', // sender address
-    to: 'drlorenesi@gmail.com', // list of receivers
-    subject: 'Please Verify Your Email', // Subject line
-    html: '<b>Hello!</b> Please verify your email.', // html body
+    from: `"Node Auth API 👋" <${process.env.EMAIL_USER}>`,
+    to: email,
+    subject: 'Please Activate your Account',
+    html: `<h3>Hi ${name}!</h3>
+      <p>Thanks for registering! Please click on the confirmation code below to activate your account:</p>
+      <p><a href="${link}">${link}</a></p>`,
   });
-
-  // Preview only available when sending through an Ethereal account
-  console.log(
-    'Message sent. Preview URL: %s',
-    nodemailer.getTestMessageUrl(info)
-  );
-  return nodemailer.getTestMessageUrl(info);
-  // Preview URL: https://ethereal.email/message/WaQKMgKddxQDoou...
+  console.log('Message sent: %s', info.messageId);
 };

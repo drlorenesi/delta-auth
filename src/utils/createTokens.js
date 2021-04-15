@@ -1,5 +1,4 @@
 const jwt = require('jsonwebtoken');
-const JWTSignature = process.env.JWT_SIGNATURE;
 
 module.exports = function (sessionId, userId, res) {
   try {
@@ -9,14 +8,14 @@ module.exports = function (sessionId, userId, res) {
         sessionId,
         userId,
       },
-      JWTSignature
+      process.env.JWT_SIGNATURE
     );
     // Crete Refresh Token
     const refreshToken = jwt.sign(
       {
         sessionId,
       },
-      JWTSignature
+      process.env.JWT_SIGNATURE
     );
     // Set tokens
     res

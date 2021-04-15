@@ -9,8 +9,8 @@ router.get('/', [auth], async (req, res) => {
   // // Return user email (if it exists), otherwise return 'unauthorized'
   // if (!user) return res.status(400).send({ error: 'Please log in.' });
   // res.send(user);
-  sendMail();
-  res.send({ message: 'Congrats! You are logged in.' });
+  const mailURL = await sendMail();
+  res.send({ message: 'Congrats! You are logged in.', url: mailURL });
 });
 
 module.exports = router;
