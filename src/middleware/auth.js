@@ -12,8 +12,9 @@ module.exports = async (req, res, next) => {
       req.cookies.accessToken,
       process.env.JWT_SIGNATURE
     );
-    // Do auth check with access token
-    // Continue if everything is in order
+    // Do auth check with user info here...
+    // ------------------------------------
+    // Continue if everything is ok
     next();
   }
   // Check if refresh token exits (with optional chaining to avoid server error)
@@ -34,8 +35,9 @@ module.exports = async (req, res, next) => {
     const user = await User.findOne({ _id: session.userId });
     // Create refresh tokens
     createTokens(sessionId, user._id, res);
-    // Do auth check with user info
-    // Continue if everything is in order
+    // Do auth check with user info here...
+    // ------------------------------------
+    // Continue if everything is ok
     next();
   } else {
     return res

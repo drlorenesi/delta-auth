@@ -1,10 +1,10 @@
 const express = require('express');
 const router = express.Router();
+const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
 const validate = require('../middleware/validate');
-const createSession = require('../utils/createSession');
-const createTokens = require('../utils/createTokens');
+const activationEmail = require('../utils/activationEmail');
 const User = require('../models/user');
 
 const validateRegister = (data) => {
@@ -18,24 +18,25 @@ const validateRegister = (data) => {
 router.post('/', [validate(validateRegister)], async (req, res) => {
   // Check if email already exists
   const duplicate = await User.findOne({
-    'email.address': req.body.email,
+    email: req.body.email,
   });
   if (duplicate)
     return res.status(400).send({ message: 'Please use another email.' });
   // Generate Salt and Hash Password
   const salt = await genSalt(10);
   const hashedPassword = await hash(req.body.password, salt);
-  // Create user document and save
+  // Create new 'user' document and save
   let user = new User({
-    'email.address': req.body.email,
+    email: req.body.email,
     password: hashedPassword,
+    verificationCode: nanoid(),
   });
   user = await user.save();
-  // Create Session
-  const sessionId = await createSession(user._id, req);
-  // Create and set Tokens
-  createTokens(sessionId, user._id, res);
-  res.status(201).send({ message: 'You are now logged in.' });
+  // Send activation email
+  const link = await activationEmail(user.email, user.verificationCode);
+  res
+    .status(201)
+    .send({ message: 'Please check your email to verify your account.', link });
 });
 
 module.exports = router;

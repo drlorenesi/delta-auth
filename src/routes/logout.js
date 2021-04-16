@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Session = require('../models/session');
 
-router.post('/', [], async (req, res) => {
+router.get('/', [], async (req, res) => {
   // Check if refreshToken exits (with optional chaining to avoid server error)
   if (req?.cookies?.refreshToken) {
     // Get Refresh Token
@@ -13,7 +13,8 @@ router.post('/', [], async (req, res) => {
     // Delete session from DB
     await Session.deleteOne({ sessionId });
   }
-  // Remove Cookies
+  // Remove Cookies (Must be done on the client)
+  // -------------------------------------------
   res
     .clearCookie('accessToken')
     .clearCookie('refreshToken')
