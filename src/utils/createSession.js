@@ -9,7 +9,7 @@ module.exports = async function (userId, req) {
     ip: req.ip,
     userAgent: req.headers['user-agent'],
   };
-  // Create session document and save
+  // Create new session document and save to DB
   let session = new Session({
     sessionId,
     userId,

@@ -2,22 +2,34 @@ const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
+    nombre: {
+      type: String,
+      required: true,
+    },
+    apellido: {
+      type: String,
+      required: true,
+    },
     email: {
       type: String,
       required: true,
       unique: true,
       index: true,
     },
-    password: {
+    pass: {
       type: String,
       minLength: 3,
       required: true,
     },
-    isVerified: {
+    accessLevel: {
+      type: Number,
+      default: 10,
+    },
+    verificado: {
       type: Boolean,
       default: false,
     },
-    verificationCode: String,
+    codigoVerificador: String,
   },
   { timestamps: true }
 );

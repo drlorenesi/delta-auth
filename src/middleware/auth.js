@@ -13,7 +13,7 @@ module.exports = async (req, res, next) => {
       process.env.JWT_SIGNATURE
     );
     // Do auth check with user info here...
-    // ------------------------------------
+    console.log('Access level is:', decoded.accessLevel);
     // Continue if everything is ok
     next();
   }
@@ -34,9 +34,9 @@ module.exports = async (req, res, next) => {
     // If session is valid, look up user info
     const user = await User.findOne({ _id: session.userId });
     // Create refresh tokens
-    createTokens(sessionId, user._id, res);
+    createTokens(sessionId, user, res);
     // Do auth check with user info here...
-    // ------------------------------------
+    console.log('Access level is:', user.accessLevel);
     // Continue if everything is ok
     next();
   } else {

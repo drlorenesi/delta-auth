@@ -6,7 +6,7 @@ const helmet = require('helmet');
 const compression = require('compression');
 
 const corsOptions = {
-  origin: [/127.0.0.1/],
+  origin: [/127.0.0.1/, /localhost/],
   // origin: 'http://127.0.0.1:5500/',
   credentials: true,
 };

@@ -2,6 +2,6 @@
 	local_certs
 }
 
-node-auth.dev {
+api.node.development {
 	reverse_proxy 127.0.0.1:9000
 }

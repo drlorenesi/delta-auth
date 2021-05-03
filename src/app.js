@@ -5,9 +5,9 @@ const app = express();
 // Startup Checks
 require('./config/startup')();
 // Prod Logger
-const Sentry = require('@sentry/node');
-const Tracing = require('@sentry/tracing');
 if (process.env.NODE_ENV === 'production') {
+  const Sentry = require('@sentry/node');
+  const Tracing = require('@sentry/tracing');
   Sentry.init({
     dsn: process.env.SENTRY,
     integrations: [

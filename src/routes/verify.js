@@ -4,7 +4,7 @@ const User = require('../models/user');
 
 // Query string is intentionally *not* validated for security purposes
 router.get('/', [], async (req, res) => {
-  // Look up user
+  // Look up 'user' in DB
   const user = await User.findOne({
     email: req.query.x,
   });
@@ -12,21 +12,21 @@ router.get('/', [], async (req, res) => {
     return res
       .status(400)
       .send({ message: 'Please check your activation link.' });
-  // Check if activation code sent, matches the one in 'user'
-  if (user.verificationCode !== req.query.y)
+  // Check if activation code sent matches the one in 'user'
+  if (user.codigoVerificador !== req.query.y)
     return res
       .status(400)
       .send({ message: 'Please check your activation link.' });
-  // Check if user has already been verified
-  if (user.isVerified)
+  // Check if 'user' has already been verified
+  if (user.verificado)
     return res
       .status(400)
       .send({ message: 'The activation link is no longer valid.' });
   // Set verified property to 'true'
-  user.isVerified = true;
-  // Save to DB
+  user.verificado = true;
+  // Save changes to DB
   await user.save();
-  res.send({ message: 'Your account has been activated. You may now log in.' });
+  res.redirect('/verified.html');
 });
 
 module.exports = router;
