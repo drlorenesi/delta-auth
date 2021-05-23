@@ -4,6 +4,7 @@ const verify = require('../routes/verify');
 const auth = require('../routes/auth');
 const logout = require('../routes/logout');
 const test = require('../routes/test');
+const todos = require('../routes/todos');
 // const users = require('../routes/users');
 
 module.exports = (app) => {
@@ -13,5 +14,6 @@ module.exports = (app) => {
   app.use('/api/v1/auth', auth);
   app.use('/api/v1/logout', logout);
   app.use('/api/v1/test', test);
+  app.use('/api/v1/todos', todos);
   // app.use('/api/v1/users', users);
 };
