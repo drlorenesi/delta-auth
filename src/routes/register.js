@@ -5,7 +5,7 @@ const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
 const validate = require('../middleware/validate');
 const activationEmail = require('../utils/activationEmail');
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 const validarRegistro = (data) => {
   const schema = Joi.object({

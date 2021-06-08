@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 // Query string is intentionally *not* validated for security purposes
 router.get('/', [], async (req, res) => {

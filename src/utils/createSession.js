@@ -1,6 +1,6 @@
 const { nanoid } = require('nanoid');
 const Session = require('../models/session');
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 module.exports = async function (userId, req) {
   // Get User Info

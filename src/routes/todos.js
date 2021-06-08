@@ -45,12 +45,17 @@ router.put('/:id', [auth([1]), validate(validateTodo)], async (req, res) => {
   res.send(todo);
 });
 
+// WORKING HERE
+// WORKING HERE
+// WORKING HERE
 router.post('/', [auth([1]), validate(validateTodo)], async (req, res) => {
   // Create new 'todo' document and save
-  let todo = new Todo(req.body);
+  let todo = req.body;
+  todo.userId = res.locals.userId;
+  let newTodo = new Todo(todo);
   // Save document
-  todo = await todo.save();
-  res.send(todo);
+  newTodo = await newTodo.save();
+  res.send(newTodo);
 });
 
 router.delete('/:id', [auth([1])], async (req, res) => {

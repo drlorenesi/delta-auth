@@ -1,9 +1,8 @@
 // Middleware that expects an array of roleId's that are allowed to access a resource.
 // Example: [restrict([1, 2, 3, ...])]
-
 const jwt = require('jsonwebtoken');
 const Session = require('../models/session');
-const { User } = require('../models/user');
+const User = require('../models/user');
 const createTokens = require('../utils/createTokens');
 
 module.exports = (param) => {

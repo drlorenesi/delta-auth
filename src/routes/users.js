@@ -3,7 +3,7 @@ const router = express.Router();
 const validate = require('../middleware/validate');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const { User } = require('../models/user');
+const User = require('../models/user');
 const auth = require('../middleware/auth');
 
 const validateUser = (data) => {

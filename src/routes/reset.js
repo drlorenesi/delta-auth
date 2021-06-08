@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
 const validate = require('../middleware/validate');
-const { User } = require('../models/user');
+const User = require('../models/user');
 
 const validateEmail = (data) => {
   const schema = Joi.object({

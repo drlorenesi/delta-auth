@@ -5,7 +5,7 @@ const { compare } = require('bcryptjs');
 const validate = require('../middleware/validate');
 const createSession = require('../utils/createSession');
 const createTokens = require('../utils/createTokens');
-const { User } = require('../models/user');
+const User = require('../models/user');
 const Session = require('../models/session');
 
 const validateLogin = (data) => {
