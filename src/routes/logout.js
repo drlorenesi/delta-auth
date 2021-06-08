@@ -3,7 +3,7 @@ const router = express.Router();
 const jwt = require('jsonwebtoken');
 const Session = require('../models/session');
 
-router.post('/', [], async (req, res) => {
+router.get('/', [], async (req, res) => {
   // Check if refreshToken exits (with optional chaining to avoid server error)
   if (req?.cookies?.refreshToken) {
     // Get Refresh Token

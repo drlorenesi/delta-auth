@@ -2,7 +2,10 @@ const mongoose = require('mongoose');
 
 const todoSchema = new mongoose.Schema(
   {
-    userId: mongoose.Schema.Types.ObjectId,
+    // userId: {
+    //   type: mongoose.Schema.Types.ObjectId,
+    //   required: true,
+    // },
     descripcion: {
       type: String,
       required: true,

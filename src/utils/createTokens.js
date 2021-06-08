@@ -8,7 +8,10 @@ module.exports = function (sessionId, user, res) {
       process.env.JWT_SIGNATURE
     );
     // Crete Refresh Token
-    const refreshToken = jwt.sign({ sessionId }, process.env.JWT_SIGNATURE);
+    const refreshToken = jwt.sign(
+      { sessionId, userId: user._id, accessLevel: user.accessLevel },
+      process.env.JWT_SIGNATURE
+    );
     // Create Session Info for RENDERING UI (save in local storage)
     const sessionInfo = jwt.sign(
       {
@@ -23,7 +26,8 @@ module.exports = function (sessionId, user, res) {
     // Send token cookies and sessionId as header
     res
       .cookie('accessToken', accessToken, {
-        // maxAge: 1000 * 60 * 60 * 24,
+        // Note that maxAge is optional for the accessToken
+        maxAge: 1000 * 60 * 60 * 1, // cookie will be removed after 1 hour
         httpOnly: true,
         secure: true,
         sameSite: 'none',

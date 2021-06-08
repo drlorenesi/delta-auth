@@ -27,7 +27,7 @@ const userSchema = new mongoose.Schema(
     },
     accessLevel: {
       type: Number,
-      default: 10,
+      default: 1,
     },
     verificado: {
       type: Boolean,
@@ -39,4 +39,6 @@ const userSchema = new mongoose.Schema(
 );
 
 const User = mongoose.model('User', userSchema);
-module.exports = User;
+
+exports.userSchema = userSchema;
+exports.User = User;

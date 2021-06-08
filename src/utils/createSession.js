@@ -1,7 +1,10 @@
 const { nanoid } = require('nanoid');
 const Session = require('../models/session');
+const { User } = require('../models/user');
 
 module.exports = async function (userId, req) {
+  // Get User Info
+  const userInfo = await User.findById(userId);
   // Generate a session id
   const sessionId = nanoid();
   // Retrieve connection information from request object
@@ -13,6 +16,11 @@ module.exports = async function (userId, req) {
   let session = new Session({
     sessionId,
     userId,
+    userInfo: {
+      nombre: userInfo.nombre,
+      apellido: userInfo.apellido,
+      email: userInfo.email,
+    },
     userAgent: connectionInformation.userAgent,
     ip: connectionInformation.ip,
   });
