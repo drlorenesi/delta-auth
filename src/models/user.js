@@ -1,33 +1,47 @@
+// accessLevel 1: standard
+// accessLevel 2: sales
+// accessLevel 3: inventory
+// accessLevel 4: accounting
+// accessLevel 10: admin
+
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
-      required: true,
+      maxLength: 255,
       trim: true,
+      required: true,
     },
     apellido: {
       type: String,
-      required: true,
+      maxLength: 255,
       trim: true,
+      required: true,
     },
     email: {
       type: String,
-      required: true,
+      maxLength: 255,
+      trim: true,
       unique: true,
       index: true,
-      trim: true,
+      required: true,
     },
     pass: {
       type: String,
       minLength: 3,
-      required: true,
+      maxLength: 255,
       trim: true,
+      required: true,
     },
     accessLevel: {
       type: Number,
       default: 1,
+    },
+    suspendido: {
+      type: Boolean,
+      default: false,
     },
     verificado: {
       type: Boolean,

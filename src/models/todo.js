@@ -8,10 +8,10 @@ const todoSchema = new mongoose.Schema(
     },
     descripcion: {
       type: String,
-      required: true,
-      trim: true,
       minlength: 1,
       maxlength: 255, // To avoid a maliciously long string
+      trim: true,
+      required: true,
     },
     completed: {
       type: Boolean,

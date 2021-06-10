@@ -34,10 +34,16 @@ router.post('/', [validate(validateLogin)], async (req, res) => {
   const isRegistered = await compare(req.body.pass, savedPassword);
   if (!isRegistered)
     return res.status(400).send({ message: 'Invalid email or password.' });
-  // Check for active sessions (permit only 1 active session)
-  const activeSessions = await Session.find({ userId: user._id });
+  // Check if user has been suspended
+  if (user.suspendido)
+    return res
+      .status(403)
+      .send({ message: 'Your account has been temporarily suspended.' });
+  // Check for active sessions
+  const activeSessions = await Session.find({ 'user._id': user._id });
   if (activeSessions.length > 0) {
-    await Session.deleteMany({ userId: user._id });
+    // Allow only 1 active session at a time
+    await Session.deleteMany({ 'user._id': user._id });
     // Create a new session
     const sessionId = await createSession(user._id, req);
     // Create and set Cookie Tokens

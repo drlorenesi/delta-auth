@@ -15,11 +15,12 @@ module.exports = async function (userId, req) {
   // Create new session document and save to DB
   let session = new Session({
     sessionId,
-    userId,
-    userInfo: {
+    user: {
+      _id: userInfo._id,
       nombre: userInfo.nombre,
       apellido: userInfo.apellido,
       email: userInfo.email,
+      accessLevel: userInfo.accessLevel,
     },
     userAgent: connectionInformation.userAgent,
     ip: connectionInformation.ip,

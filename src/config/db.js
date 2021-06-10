@@ -5,6 +5,7 @@ async function connectDB() {
     useNewUrlParser: true,
     useUnifiedTopology: true,
     useCreateIndex: true,
+    useFindAndModify: false,
   });
   console.log(
     `- Conected to ${mongoose.connection.name} as ${mongoose.connection.user} on ${mongoose.connection.host}`

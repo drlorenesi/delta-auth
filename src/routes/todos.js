@@ -15,7 +15,7 @@ const validateTodo = (data) => {
 };
 
 router.get('/', [auth([1])], async (req, res) => {
-  const todos = await Todo.find();
+  const todos = await Todo.find({ userId: res.locals.userId });
   res.send(todos);
 });
 
@@ -23,7 +23,10 @@ router.get('/:id', [auth([1])], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
-  const todo = await Todo.findById(req.params.id);
+  const todo = await Todo.find({
+    _id: req.params.id,
+    userId: res.locals.userId,
+  });
   // If todo does not exists return 404 error
   if (!todo)
     return res.status(400).send({ message: 'The resource does not exist.' });
@@ -35,19 +38,22 @@ router.put('/:id', [auth([1]), validate(validateTodo)], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
   // Check if todo exists
-  let todo = await Todo.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-  });
+  let todo = await Todo.findOneAndUpdate(
+    {
+      _id: req.params.id,
+      userId: res.locals.userId,
+    },
+    req.body,
+    {
+      new: true,
+    }
+  );
   // If todo does not exists return 404 error
   if (!todo)
     return res.status(400).send({ message: 'The resource does not exist.' });
-  // Update Document
   res.send(todo);
 });
 
-// WORKING HERE
-// WORKING HERE
-// WORKING HERE
 router.post('/', [auth([1]), validate(validateTodo)], async (req, res) => {
   // Create new 'todo' document and save
   let todo = req.body;
@@ -63,7 +69,10 @@ router.delete('/:id', [auth([1])], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
   // Check if todo exists to delete
-  const todo = await Todo.findByIdAndDelete(req.params.id);
+  const todo = await Todo.findOneAndDelete({
+    _id: req.params.id,
+    userId: res.locals.userId,
+  });
   // If todo does not exists return 404 error
   if (!todo)
     return res.status(400).send({ message: 'The resource does not exist.' });
