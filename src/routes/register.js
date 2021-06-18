@@ -7,7 +7,7 @@ const validate = require('../middleware/validate');
 const activationEmail = require('../utils/activationEmail');
 const User = require('../models/user');
 
-const validarRegistro = (data) => {
+const validateRegister = (data) => {
   const schema = Joi.object({
     nombre: Joi.string().min(2).required(),
     apellido: Joi.string().min(2).required(),
@@ -18,7 +18,7 @@ const validarRegistro = (data) => {
   return schema.validate(data);
 };
 
-router.post('/', [validate(validarRegistro)], async (req, res) => {
+router.post('/', [validate(validateRegister)], async (req, res) => {
   // Check if email already exists
   const duplicate = await User.findOne({
     email: req.body.email,

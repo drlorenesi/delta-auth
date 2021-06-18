@@ -20,6 +20,10 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
+    extension: {
+      type: Number,
+      default: null,
+    },
     email: {
       type: String,
       maxLength: 255,
