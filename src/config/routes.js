@@ -1,23 +1,25 @@
 // Routes
-const register = require('../routes/register');
-const verify = require('../routes/verify');
-const auth = require('../routes/auth');
-const logout = require('../routes/logout');
-const profile = require('../routes/profile');
-const reset = require('../routes/reset');
+const register = require('../routes/accounts/register');
+const verify = require('../routes/accounts/verify');
+const auth = require('../routes/accounts/auth');
+const logout = require('../routes/accounts/logout');
+const profile = require('../routes/accounts/profile');
+const changePass = require('../routes/accounts/change-pass');
+const reset = require('../routes/accounts/reset');
+const todos = require('../routes/accounts/todos');
 const users = require('../routes/users');
-const todos = require('../routes/todos');
 const test = require('../routes/test');
 
 module.exports = (app) => {
   // Routes
-  app.use('/v1/register', register);
-  app.use('/v1/verify', verify);
-  app.use('/v1/auth', auth);
-  app.use('/v1/logout', logout);
-  app.use('/v1/profile', profile);
-  app.use('/v1/reset', reset);
+  app.use('/v1/accounts/register', register);
+  app.use('/v1/accounts/verify', verify);
+  app.use('/v1/accounts/auth', auth);
+  app.use('/v1/accounts/logout', logout);
+  app.use('/v1/accounts/profile', profile);
+  app.use('/v1/accounts/change-pass', changePass);
+  app.use('/v1/accounts/reset', reset);
+  app.use('/v1/accounts/todos', todos);
   app.use('/v1/users', users);
-  app.use('/v1/todos', todos);
   app.use('/v1/test', test);
 };

@@ -3,9 +3,9 @@ const router = express.Router();
 const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validate = require('../middleware/validate');
-const activationEmail = require('../utils/activationEmail');
-const User = require('../models/user');
+const validate = require('../../middleware/validate');
+const activationEmail = require('../../utils/activationEmail');
+const User = require('../../models/user');
 
 const validateRegister = (data) => {
   const schema = Joi.object({
@@ -44,7 +44,7 @@ router.post('/', [validate(validateRegister)], async (req, res) => {
     user.codigoVerificador
   );
   res.status(201).send({
-    mensaje: 'Please check your email to verify your account.',
+    message: 'Please check your email to verify your account.',
     link,
     preview,
   });
