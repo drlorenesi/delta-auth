@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
-const validate = require('../../middleware/validate');
-const User = require('../../models/user');
-const resetPassEmail = require('../../utils/resetPassEmail');
+const validate = require('../../middleware/validar');
+const Usuario = require('../../models/usuario');
+const resetEmail = require('../../utils/resetEmail');
 
 const validateEmail = (data) => {
   const schema = Joi.object({
@@ -13,13 +13,13 @@ const validateEmail = (data) => {
 };
 
 router.post('/', [validate(validateEmail)], async (req, res) => {
-  // Look up user
-  const user = await User.findOne({
+  // Look up usuario
+  const usuario = await Usuario.findOne({
     email: req.body.email,
   });
-  if (user) {
+  if (usuario) {
     // Send reset password email
-    const { link, preview } = await resetPassEmail(user.nombre, user.email);
+    const { link, preview } = await resetEmail(usuario.nombre, usuario.email);
     res.send({
       message:
         'Check your email for instructions on how to reset your password.',

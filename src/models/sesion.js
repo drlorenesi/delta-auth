@@ -1,33 +1,33 @@
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema({
+const usuarioSchema = new mongoose.Schema({
   _id: { type: mongoose.ObjectId, required: true },
   nombre: {
     type: String,
-    required: true,
     trim: true,
+    required: true,
   },
   apellido: {
     type: String,
-    required: true,
     trim: true,
+    required: true,
   },
   email: {
     type: String,
-    required: true,
     trim: true,
+    required: true,
   },
-  accessLevel: {
+  role: {
     type: Number,
     required: true,
   },
 });
 
-const sessionSchema = new mongoose.Schema(
+const sesionSchema = new mongoose.Schema(
   {
-    sessionId: { type: String, index: true },
-    user: {
-      type: userSchema,
+    sesionId: { type: String, index: true },
+    usuario: {
+      type: usuarioSchema,
       required: true,
     },
     valid: {
@@ -40,5 +40,5 @@ const sessionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Session = mongoose.model('Session', sessionSchema);
-module.exports = Session;
+const Sesion = mongoose.model('Sesion', sesionSchema);
+module.exports = Sesion;

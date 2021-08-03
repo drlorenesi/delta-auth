@@ -1,12 +1,12 @@
 const express = require('express');
 const router = express.Router();
-const validate = require('../../middleware/validate');
+const validate = require('../../middleware/validar');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const Todo = require('../../models/todo');
+const Tarea = require('../../models/tarea');
 const auth = require('../../middleware/auth');
 
-const validateTodo = (data) => {
+const validateTarea = (data) => {
   const schema = Joi.object({
     descripcion: Joi.string().required(),
     completed: Joi.boolean(),
@@ -15,25 +15,25 @@ const validateTodo = (data) => {
 };
 
 router.get('/', [auth([1])], async (req, res) => {
-  const todos = await Todo.find({ userId: res.locals.userId });
-  res.send(todos);
+  const tareas = await Tarea.find({ userId: res.locals.userId });
+  res.send(tareas);
 });
 
 router.get('/:id', [auth([1])], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
-  const todo = await Todo.find({
+  const tarea = await Tarea.find({
     _id: req.params.id,
-    userId: res.locals.userId,
+    usuarioId: res.locals.userId,
   });
   // If todo does not exists return 404 error
-  if (!todo)
+  if (!tarea)
     return res.status(400).send({ message: 'The resource does not exist.' });
-  res.send(todo);
+  res.send(tarea);
 });
 
-router.put('/:id', [auth([1]), validate(validateTodo)], async (req, res) => {
+router.put('/:id', [auth([1]), validate(validateTarea)], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
@@ -54,7 +54,7 @@ router.put('/:id', [auth([1]), validate(validateTodo)], async (req, res) => {
   res.send(todo);
 });
 
-router.post('/', [auth([1]), validate(validateTodo)], async (req, res) => {
+router.post('/', [auth([1]), validate(validateTarea)], async (req, res) => {
   // Create new 'todo' document and save
   let todo = req.body;
   todo.userId = res.locals.userId;

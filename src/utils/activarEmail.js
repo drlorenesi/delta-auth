@@ -17,12 +17,12 @@ module.exports = async (nombre, email, codigoVerificador) => {
     },
   });
 
-  let link = `${process.env.BASE_URL}accounts/verify?x=${encodeURIComponent(
+  let link = `${process.env.BASE_URL}usuarios/verificar?x=${encodeURIComponent(
     email
   )}&y=${codigoVerificador}`;
 
   let info = await transporter.sendMail({
-    from: `"Node Auth API 👋" <no-reply@api.node.development>`,
+    from: `"Express App 👋" <no-reply@api.app.dev>`,
     to: email,
     subject: 'Por Favor Activa tu Cuenta',
     html: `<h3>¡Hola ${nombre}!</h3>

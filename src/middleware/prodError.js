@@ -5,8 +5,8 @@ module.exports = (app) => {
     // and optionally displayed to the user for support.
     res.statusCode = 500;
     res.end(
-      'The server encountered an error and could not complete your request.\n' +
-        'Please report error code: ' +
+      'Ocurrió un error en el servidor y no se pudo llevar acabo la solicitud..\n' +
+        'Por favor tomar nota del siguiente código de error: ' +
         res.sentry
     );
   });

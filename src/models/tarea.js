@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 
-const todoSchema = new mongoose.Schema(
+const tareaSchema = new mongoose.Schema(
   {
-    userId: {
+    usuarioId: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
     },
@@ -13,7 +13,7 @@ const todoSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    completed: {
+    finalizada: {
       type: Boolean,
       default: false,
     },
@@ -21,5 +21,5 @@ const todoSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Todo = mongoose.model('Todo', todoSchema);
-module.exports = Todo;
+const Tarea = mongoose.model('Tarea', tareaSchema);
+module.exports = Tarea;

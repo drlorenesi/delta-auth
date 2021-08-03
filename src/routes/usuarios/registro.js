@@ -3,11 +3,11 @@ const router = express.Router();
 const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validate = require('../../middleware/validate');
-const activationEmail = require('../../utils/activationEmail');
-const User = require('../../models/user');
+const validar = require('../../middleware/validar');
+const activarEmail = require('../../utils/activarEmail');
+const Usuario = require('../../models/usuario');
 
-const validateRegister = (data) => {
+const validarRegistro = (data) => {
   const schema = Joi.object({
     nombre: Joi.string().min(2).required(),
     apellido: Joi.string().min(2).required(),
@@ -18,33 +18,33 @@ const validateRegister = (data) => {
   return schema.validate(data);
 };
 
-router.post('/', [validate(validateRegister)], async (req, res) => {
-  // Check if email already exists
-  const duplicate = await User.findOne({
+router.post('/', [validar(validarRegistro)], async (req, res) => {
+  // Revisar si el email ya está registrado
+  const duplicado = await Usuario.findOne({
     email: req.body.email,
   });
-  if (duplicate)
-    return res.status(400).send({ error: 'Please use another email.' });
-  // Generate Salt and Hash Password
+  if (duplicado)
+    return res.status(400).send({ error: 'Por favor usar otro email.' });
+  // Generar Salt y Hash a pass
   const salt = await genSalt(10);
   const hashedPass = await hash(req.body.pass, salt);
-  // Create new 'user' document and save
-  let user = new User({
+  // Crear nuevo documento de 'usuario' y guardar
+  let usuario = new Usuario({
     nombre: req.body.nombre,
     apellido: req.body.apellido,
     email: req.body.email,
     pass: hashedPass,
     codigoVerificador: nanoid(),
   });
-  user = await user.save();
-  // Send activation email
-  const { link, preview } = await activationEmail(
-    user.nombre,
-    user.email,
-    user.codigoVerificador
+  usuario = await usuario.save();
+  // Enviar email de activación de cuenta
+  const { link, preview } = await activarEmail(
+    usuario.nombre,
+    usuario.email,
+    usuario.codigoVerificador
   );
   res.status(201).send({
-    message: 'Please check your email to verify your account.',
+    mensaje: 'Por favor revisa tu email para activar tu cuenta.',
     link,
     preview,
   });

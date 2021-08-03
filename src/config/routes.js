@@ -1,25 +1,25 @@
 // Routes
-const register = require('../routes/accounts/register');
-const verify = require('../routes/accounts/verify');
-const auth = require('../routes/accounts/auth');
-const logout = require('../routes/accounts/logout');
-const profile = require('../routes/accounts/profile');
-const changePass = require('../routes/accounts/change-pass');
-const reset = require('../routes/accounts/reset');
-const todos = require('../routes/accounts/todos');
-const users = require('../routes/users');
-const test = require('../routes/test');
+const registro = require('../routes/usuarios/registro');
+const verificar = require('../routes/usuarios/verificar');
+const login = require('../routes/usuarios/login');
+const logout = require('../routes/usuarios/logout');
+const perfil = require('../routes/usuarios/perfil');
+const cambioPass = require('../routes/usuarios/cambioPass');
+const reset = require('../routes/usuarios/reset');
+const tareas = require('../routes/usuarios/tareas');
+const usuarios = require('../routes/usuarios');
+const check = require('../routes/check');
 
 module.exports = (app) => {
   // Routes
-  app.use('/v1/accounts/register', register);
-  app.use('/v1/accounts/verify', verify);
-  app.use('/v1/accounts/auth', auth);
-  app.use('/v1/accounts/logout', logout);
-  app.use('/v1/accounts/profile', profile);
-  app.use('/v1/accounts/change-pass', changePass);
-  app.use('/v1/accounts/reset', reset);
-  app.use('/v1/accounts/todos', todos);
-  app.use('/v1/users', users);
-  app.use('/v1/test', test);
+  app.use('/v1/usuarios/registro', registro);
+  app.use('/v1/usuarios/verificar', verificar);
+  app.use('/v1/usuarios/login', login);
+  app.use('/v1/usuarios/logout', logout);
+  app.use('/v1/usuarios/perfil', perfil);
+  app.use('/v1/usuarios/cambio-pass', cambioPass);
+  app.use('/v1/usuarios/reset', reset);
+  app.use('/v1/usuarios/tareas', tareas);
+  app.use('/v1/usuarios', usuarios);
+  app.use('/v1/check', check);
 };

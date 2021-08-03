@@ -1,12 +1,6 @@
-// accessLevel 1: standard
-// accessLevel 2: sales
-// accessLevel 3: inventory
-// accessLevel 4: accounting
-// accessLevel 10: admin
-
 const mongoose = require('mongoose');
 
-const userSchema = new mongoose.Schema(
+const usuarioSchema = new mongoose.Schema(
   {
     nombre: {
       type: String,
@@ -39,9 +33,15 @@ const userSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    accessLevel: {
-      type: Number,
-      default: 1,
+    role: {
+      nivel: {
+        type: Number,
+        default: 1,
+      },
+      descripcion: {
+        type: String,
+        default: 'General',
+      },
     },
     suspendido: {
       type: Boolean,
@@ -56,5 +56,5 @@ const userSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const User = mongoose.model('User', userSchema);
-module.exports = User;
+const Usuario = mongoose.model('Usuario', usuarioSchema);
+module.exports = Usuario;

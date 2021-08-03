@@ -1,22 +1,22 @@
 const express = require('express');
 const router = express.Router();
 const jwt = require('jsonwebtoken');
-const Session = require('../../models/session');
+const Sesion = require('../../models/sesion');
 
 router.get('/', [], async (req, res) => {
-  // Check if refreshToken exits (with optional chaining to avoid server error)
+  // Revisar si existe refreshToken (usuar 'optional chaining' para evitar errores)
   if (req?.cookies?.refreshToken) {
-    // Get Refresh Token
+    // Obtener Refresh Token
     const { refreshToken } = req.cookies;
-    // Decode access token
+    // Devodificar Access Token
     const { sessionId } = jwt.verify(refreshToken, process.env.JWT_SIGNATURE);
-    // Delete session from DB
-    await Session.deleteOne({ sessionId });
+    // Eliminar session de DB
+    await Sesion.deleteOne({ sessionId });
   }
-  // Remove Cookies
-  // Web browsers and other compliant clients will only clear the cookie if
+  // Eliminar Cookies. Tomar en cuenta nota de abajo.
+  // "Web browsers and other compliant clients will only clear the cookie if
   // the given options is identical to those given to res.cookie(),
-  // excluding expires and maxAge.
+  // excluding expires and maxAge.""
   res
     .clearCookie('accessToken', {
       httpOnly: true,
@@ -28,7 +28,7 @@ router.get('/', [], async (req, res) => {
       secure: true,
       sameSite: 'none',
     })
-    .send({ message: 'You are now logged out.' });
+    .send({ mensaje: 'Tu sesión ha terminado.' });
 });
 
 module.exports = router;

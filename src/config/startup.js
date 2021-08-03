@@ -7,4 +7,8 @@ module.exports = () => {
     console.error('FATAL ERROR: MONGO_URL is not defined.');
     process.exit(1);
   }
+  if (!process.env.BASE_URL) {
+    console.error('FATAL ERROR: BASE_URL is not defined.');
+    process.exit(1);
+  }
 };

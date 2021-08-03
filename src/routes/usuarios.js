@@ -1,63 +1,63 @@
 const express = require('express');
 const router = express.Router();
-const validate = require('../middleware/validate');
+const validar = require('../middleware/validar');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const User = require('../models/user');
+const Usuario = require('../models/usuario');
 const auth = require('../middleware/auth');
 
-const validateUser = (data) => {
+const validarUsuario = (data) => {
   const schema = Joi.object({
     nombre: Joi.string().min(2).required(),
     apellido: Joi.string().min(2).required(),
     email: Joi.string().email(),
   });
-  return schema.validate(data);
+  return schema.validar(data);
 };
 
 router.get('/', [auth([1])], async (req, res) => {
-  const users = await User.find();
-  res.send(users);
+  const usuarios = await Usuario.find();
+  res.send(usuarios);
 });
 
 router.get('/:id', [auth([1])], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
-  const user = await User.findById(req.params.id);
-  // If user does not exists return 404 error
-  if (!user)
+  const usuario = await Usuario.findById(req.params.id);
+  // If usuario does not exists return 404 error
+  if (!usuario)
     return res.status(400).send({ message: 'The resource does not exist.' });
-  res.send(user);
+  res.send(usuario);
 });
 
-router.put('/:id', [auth([1]), validate(validateUser)], async (req, res) => {
+router.put('/:id', [auth([1]), validar(validarUsuario)], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
-  // Check if user exists
-  let user = await User.findByIdAndUpdate(req.params.id, req.body, {
+  // Check if usuario exists
+  let usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, {
     new: true,
   });
-  // If user does not exists return 404 error
-  if (!user)
+  // If usuario does not exists return 404 error
+  if (!usuario)
     return res.status(400).send({ message: 'The resource does not exist.' });
   // Update Document
-  res.send(user);
+  res.send(usuario);
 });
 
-// No POST route since a user can only be created by signing up
+// No POST route since a usuario can only be created by signing up
 
 router.delete('/:id', [auth([1])], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
-  // Check if user exists to delete
-  const user = await User.findByIdAndDelete(req.params.id);
-  // If user does not exists return 404 error
-  if (!user)
+  // Check if usuario exists to delete
+  const usuario = await Usuario.findByIdAndDelete(req.params.id);
+  // If usuario does not exists return 404 error
+  if (!usuario)
     return res.status(400).send({ message: 'The resource does not exist.' });
-  res.send(user);
+  res.send(usuario);
 });
 
 module.exports = router;
