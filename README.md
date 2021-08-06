@@ -1,24 +1,25 @@
 # Node Auth
 
-Este proyecto es una aplicación básica, tipo REST API, para autenticar y crear sesiones de usuarios usando
-[Express](https://expressjs.com/) y Base de Datos [mongoDB](https://www.mongodb.com/).
+Este proyecto es una aplicación básica, tipo REST API, para autenticar y crear sesiones de usuarios que utiliza [Express](https://expressjs.com/) y [mongoDB](https://www.mongodb.com/).
 
 Crea un archivo tipo `.env` en el folder raíz con la siguiente información:
 
 ```text
-JWT_SIGNATURE=
-MONGO_URL=
-BASE_URL=
+FIRMA_JWT=
+URL_BASE=
+URL_MONGO=
 
-/* Optional */
+# Opcional #
 SENTRY=
 ```
 
-Asegurate que los valores de este archivo estén de acuerdo al entorno:
+Si la aplicación no detecta esta información, no iniciará y desplegará "`ERROR TERMINAL: ...`" en la consola.
 
-- producción (production)
-- desarrollo (dev)
-- pruebas (test)
+Asegurate de que los valores de este archivo estén de acuerdo al entorno:
+
+- produccion
+- desarrollo
+- pruebas
 
 Iniciar la aplicación en modo `produccion`:
 
@@ -26,13 +27,13 @@ Iniciar la aplicación en modo `produccion`:
 npm start
 ```
 
-o en modo `desarrollo`
+o en modo `desarrollo`:
 
 ```bash
 npm run dev
 ```
 
-Se pueden correr las pruebas con:
+En caso se agreguen pruebas, estas se pueden correr con:
 
 ```bash
 npm run test

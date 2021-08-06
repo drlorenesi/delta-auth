@@ -18,8 +18,14 @@ const usuarioSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    type: Number,
-    required: true,
+    nivel: {
+      type: Number,
+      required: true,
+    },
+    descripcion: {
+      type: String,
+      required: true,
+    },
   },
 });
 

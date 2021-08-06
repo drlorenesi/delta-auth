@@ -7,29 +7,32 @@ const mockExit = jest.spyOn(process, 'exit').mockImplementation(() => {});
 global.console = { error: jest.fn() };
 startUp();
 
-describe('Verify environment variables in ".env" file', () => {
-  it('- should display "FATAL ERROR: JWT_SIGNATURE is not defined." on console', () => {
+describe('Verificar variables de entorno en archivo ".env"', () => {
+  // FIRMA_JWT
+  it('- debería desplegar "ERROR TERMINAL: FIRMA_JWT no está definida." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'FATAL ERROR: JWT_SIGNATURE is not defined.'
+      'ERROR TERMINAL: FIRMA_JWT no está definida.'
     );
   });
-  it('- should exit process with exit code 1 if "JWT_SIGNATURE" does not exists in ".env"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "FIRMA_JWT"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
-  it('- should display "FATAL ERROR: MONGO_URL is not defined." on console', () => {
+  // URL_BASE
+  it('- debería desplegar "ERROR TERMINAL: URL_BASE no está definido." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'FATAL ERROR: MONGO_URL is not defined.'
+      'ERROR TERMINAL: URL_BASE no está definido.'
     );
   });
-  it('- should exit process with exit code 1 if "MONGO_URL" does not exists in ".env"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_BASE"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
-  it('- should display "FATAL ERROR: BASE_URL is not defined." on console', () => {
+  // URL_MONGO
+  it('- debería desplegar "ERROR TERMINAL: URL_MONGO no está definido." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'FATAL ERROR: BASE_URL is not defined.'
+      'ERROR TERMINAL: URL_MONGO no está definido.'
     );
   });
-  it('- should exit process with exit code 1 if "BASE_URL" does not exists in ".env"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_MONGO"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 });

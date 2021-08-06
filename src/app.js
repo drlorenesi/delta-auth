@@ -7,7 +7,7 @@ const Tracing = require('@sentry/tracing');
 // Startup Checks
 require('./config/startup')();
 // Prod Logger
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENTORNO === 'produccion') {
   Sentry.init({
     dsn: process.env.SENTRY,
     integrations: [
@@ -29,7 +29,7 @@ if (process.env.NODE_ENV === 'production') {
   app.use(Sentry.Handlers.tracingHandler());
 }
 // Dev Logger
-if (process.env.NODE_ENV === 'development') {
+if (process.env.ENTORNO === 'desarrollo') {
   require('./config/devLogger');
 }
 // Middleware
@@ -38,12 +38,12 @@ require('./config/middleware')(app);
 require('./config/routes')(app);
 // Prod Error Handler
 // The error handler must be before any other error middleware and after all controllers
-if (process.env.NODE_ENV === 'production') {
+if (process.env.ENTORNO === 'produccion') {
   app.use(Sentry.Handlers.errorHandler());
   require('./middleware/prodError')(app);
 }
 // Dev Error Handler
-if (process.env.NODE_ENV === 'development') {
+if (process.env.ENTORNO === 'desarrollo') {
   app.use(require('./middleware/devError'));
 }
 

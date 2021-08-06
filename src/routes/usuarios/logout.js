@@ -9,7 +9,7 @@ router.get('/', [], async (req, res) => {
     // Obtener Refresh Token
     const { refreshToken } = req.cookies;
     // Devodificar Access Token
-    const { sessionId } = jwt.verify(refreshToken, process.env.JWT_SIGNATURE);
+    const { sessionId } = jwt.verify(refreshToken, process.env.FIRMA_JWT);
     // Eliminar session de DB
     await Sesion.deleteOne({ sessionId });
   }

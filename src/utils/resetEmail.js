@@ -17,8 +17,8 @@ module.exports = async (nombre, email) => {
     },
   });
 
-  let link = `${process.env.BASE_URL}`;
-  // let link = `${process.env.BASE_URL}reset?x=${encodeURIComponent(
+  let link = `${process.env.URL_BASE}`;
+  // let link = `${process.env.URL_BASE}reset?x=${encodeURIComponent(
   //   email
   // )}&y=${codigoVerificador}`;
 

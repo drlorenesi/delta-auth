@@ -1,14 +1,16 @@
 const jwt = require('jsonwebtoken');
 
 module.exports = function (sesionId, usuario, res) {
+  console.log(usuario.role.nivel);
   try {
     // Crear Access Token
     const accessToken = jwt.sign(
-      { sesionId, usuarioId: usuario._id, role: usuario.role.nivel },
-      process.env.JWT_SIGNATURE
+      // { sesionId, usuarioId: usuario._id, role: usuario.role },
+      { sesionId, usuarioId: usuario._id },
+      process.env.FIRMA_JWT
     );
     // Crear Refresh Token
-    const refreshToken = jwt.sign({ sesionId }, process.env.JWT_SIGNATURE);
+    const refreshToken = jwt.sign({ sesionId }, process.env.FIRMA_JWT);
     // Crear info de sesión para utilizar en UI (guardar en 'local storage')
     const sessionInfo = jwt.sign(
       {
@@ -16,9 +18,9 @@ module.exports = function (sesionId, usuario, res) {
         nombre: usuario.nombre,
         apellido: usuario.apellido,
         email: usuario.email,
-        role: usuario.role.nivel,
+        // role: usuario.role,
       },
-      process.env.JWT_SIGNATURE
+      process.env.FIRMA_JWT
     );
     // Enviar tokens como cookies seguras y sesionId como header
     res

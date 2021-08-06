@@ -20,7 +20,7 @@ module.exports = async function (usuarioId, req) {
       nombre: infoUsuario.nombre,
       apellido: infoUsuario.apellido,
       email: infoUsuario.email,
-      accessLevel: infoUsuario.accessLevel,
+      role: infoUsuario.role,
     },
     userAgent: infoConexion.userAgent,
     ip: infoConexion.ip,
