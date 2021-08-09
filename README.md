@@ -2,6 +2,8 @@
 
 Este proyecto es una aplicación básica, tipo REST API, para autenticar y crear sesiones de usuarios que utiliza [Express](https://expressjs.com/) y [mongoDB](https://www.mongodb.com/).
 
+## Como Iniciar
+
 Crea un archivo tipo `.env` en el folder raíz con la siguiente información:
 
 ```text
@@ -15,7 +17,7 @@ SENTRY=
 
 Si la aplicación no detecta esta información, no iniciará y desplegará "`ERROR TERMINAL: ...`" en la consola.
 
-Asegurate de que los valores de este archivo estén de acuerdo al entorno:
+Asegurate que los valores de este archivo estén de acuerdo al entorno:
 
 - produccion
 - desarrollo
