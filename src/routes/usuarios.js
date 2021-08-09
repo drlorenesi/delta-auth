@@ -12,7 +12,7 @@ const validarUsuario = (data) => {
     apellido: Joi.string().min(2).required(),
     email: Joi.string().email(),
   });
-  return schema.validar(data);
+  return schema.validate(data);
 };
 
 router.get('/', [auth([1])], async (req, res) => {

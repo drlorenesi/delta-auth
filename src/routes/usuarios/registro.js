@@ -4,7 +4,7 @@ const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
 const validar = require('../../middleware/validar');
-const activarEmail = require('../../utils/activarEmail');
+const emailActivarCuenta = require('../../utils/emailActivarCuenta');
 const Usuario = require('../../models/usuario');
 
 const validarRegistro = (data) => {
@@ -38,7 +38,7 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
   });
   usuario = await usuario.save();
   // Enviar email de activación de cuenta
-  const { link, preview } = await activarEmail(
+  const { link, preview } = await emailActivarCuenta(
     usuario.nombre,
     usuario.email,
     usuario.codigoVerificador

@@ -36,7 +36,7 @@ const usuarioSchema = new mongoose.Schema(
     role: {
       nivel: {
         type: Number,
-        default: 1,
+        default: 10,
       },
       descripcion: {
         type: String,

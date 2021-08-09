@@ -1,14 +1,15 @@
 const mongoose = require('mongoose');
-// nivel 1: General
-// nivel 2: Ventas
+// Nivel 0: Administrador
+// nivel 1: Gerencia
+// nivel 2: Contabilidad
 // nivel 3: Produccion
-// nivel 4: Contabilidad
+// nivel 4: Ventas
 // nivel 5: Inventarios
 // nivel 6: (pend)
 // nivel 7: (pend)
 // nivel 8: (pend)
-// nivel 9: Gerencia
-// nivel 10: Administrador
+// nivel 9: (pend)
+// nivel 10: General
 
 const roleSchema = new mongoose.Schema(
   {

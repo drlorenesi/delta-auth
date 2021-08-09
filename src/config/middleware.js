@@ -15,10 +15,10 @@ module.exports = (app) => {
   app.use(express.json());
   app.use(express.static('./src/public'));
   app.use(cookieParser());
-  if (app.get('env') === 'development') {
+  if (process.env.ENTORNO === 'desarrollo') {
     app.use(morgan('dev'));
   }
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.ENTORNO === 'produccion') {
     app.use(helmet());
     app.use(compression());
   }

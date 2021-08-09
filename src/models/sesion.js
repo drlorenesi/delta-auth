@@ -36,7 +36,7 @@ const sesionSchema = new mongoose.Schema(
       type: usuarioSchema,
       required: true,
     },
-    valid: {
+    valida: {
       type: Boolean,
       default: true,
     },

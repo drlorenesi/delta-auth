@@ -20,11 +20,11 @@ const logger = createLogger({
 });
 
 process.on('uncaughtException', (error) => {
-  logger.error('Unhandled Exception.\n%s', error);
+  logger.error('Unhandled Exception.\n%s', error.stack);
 });
 
 process.on('unhandledRejection', (error) => {
-  logger.error('Unhandled Rejection.\n%s', error);
+  logger.error('Unhandled Rejection.\n%s', error.stack);
 });
 
 module.exports = logger;

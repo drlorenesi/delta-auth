@@ -16,6 +16,11 @@ const validarLogin = (data) => {
   return schema.validate(data);
 };
 
+// Posibles errores
+// 400 - Email o contraseña inválida.
+// 401 - Tu cuenta aun no ha sido verificada.
+// 403 - Tu cuenta se encuentra temporalmente suspendida.
+
 router.post('/', [validar(validarLogin)], async (req, res) => {
   // Buscar a usuario
   const usuario = await Usuario.findOne({
@@ -55,7 +60,7 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   }
   // Si no hay sesión activa crear una nueva
   const sesionId = await crearSesion(usuario._id, req);
-  // Crear nuevos tokens
+  // Crear y enviar tokens
   crearTokens(sesionId, usuario, res);
   res.send({ mensaje: 'Tu sesión ha iniciado.' });
 });
