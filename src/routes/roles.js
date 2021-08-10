@@ -14,39 +14,23 @@ const validarRole = (data) => {
   return schema.validate(data);
 };
 
-router.get('/', [auth([0])], async (req, res) => {
+const rolesAutorizados = [0];
+
+// GET
+router.get('/', [auth(rolesAutorizados)], async (req, res) => {
   const roles = await Role.find();
   res.send(roles);
 });
 
-router.get('/:id', [auth([0])], async (req, res) => {
+// GET
+router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res
       .status(400)
       .send({ mensaje: 'El recurso solicitado no existe.' });
+  // Buscar el role
   const role = await Role.findById(req.params.id);
-  // Si el role no existe, retornar error tipo 404
-  if (!role)
-    return res
-      .status(400)
-      .send({ mensaje: 'El recurso solicitado no existe.' });
-  res.send(role);
-});
-
-router.put('/:id', [auth([0]), validar(validarRole)], async (req, res) => {
-  // Validar ObjectId
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res
-      .status(400)
-      .send({ mensaje: 'El recurso solicitado no existe.' });
-  // Si el role existe hacer actualización
-  let role = await Role.findById(req.params.id);
-  // HASTA AQUI ME QUEDÉ
-  // Revisar si el nivel ya está asignado a otra descripción
-  let test = await Role.find({ nivel: req.body.nivel });
-  // HASTA AQUI ME QUEDÉ
-
   // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
   if (!role)
     return res
@@ -55,19 +39,65 @@ router.put('/:id', [auth([0]), validar(validarRole)], async (req, res) => {
   res.send(role);
 });
 
-router.post('/', [auth([0]), validar(validarRole)], async (req, res) => {
-  // Revisar si el nivel ya fue utilizado
-  const duplicado = await Role.find({ nivel: req.body.nivel });
-  if (duplicado.length > 0)
-    return res.status(400).send({ mensaje: 'El nivel ya está asignado.' });
-  // Crear nuevo role
-  let nuevoRole = new Role(req.body);
-  // Guardar nuevo role
-  nuevoRole = await nuevoRole.save();
-  res.send(nuevoRole);
-});
+// PUT
+router.put(
+  '/:id',
+  [auth(rolesAutorizados), validar(validarRole)],
+  async (req, res) => {
+    // Validar ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res
+        .status(400)
+        .send({ mensaje: 'El recurso solicitado no existe.' });
+    // Buscar el role a actualizar
+    let role = await Role.findById(req.params.id);
+    // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
+    if (!role)
+      return res
+        .status(400)
+        .send({ mensaje: 'El recurso solicitado no existe.' });
+    // Si el nivel es el mismo, proceder a actualizar
+    if (parseInt(req.body.nivel, 10) === role.nivel) {
+      console.log('here');
+      role = await Role.findByIdAndUpdate(req.params.id, req.body, {
+        new: true,
+      });
+      return res.send(role);
+    }
+    // Si el nivel cambia, revisar si ya está en uso
+    const duplicate = await Role.find({ nivel: req.body.nivel });
+    if (duplicate.length > 0) {
+      return res
+        .status(400)
+        .send({ mensaje: 'El nivel ya se encuentra en uso.' });
+    }
+    // Actualizar role
+    role = await Role.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+    });
+    return res.send(role);
+  }
+);
 
-router.delete('/:id', [auth([0])], async (req, res) => {
+// POST
+router.post(
+  '/',
+  [auth(rolesAutorizados), validar(validarRole)],
+  async (req, res) => {
+    // Revisar si el nivel ya fue utilizado
+    const duplicado = await Role.find({ nivel: req.body.nivel });
+    if (duplicado.length > 0)
+      return res.status(400).send({ mensaje: 'El nivel ya está asignado.' });
+    // Crear nuevo role
+    let nuevoRole = new Role(req.body);
+    // Guardar nuevo role
+    nuevoRole = await nuevoRole.save();
+    res.send(nuevoRole);
+  }
+);
+
+// DELETE
+router.delete('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res

@@ -14,12 +14,14 @@ const validateTarea = (data) => {
   return schema.validate(data);
 };
 
-router.get('/', [auth([1])], async (req, res) => {
+const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+router.get('/', [auth(rolesAutorizados)], async (req, res) => {
   const tareas = await Tarea.find({ userId: res.locals.userId });
   res.send(tareas);
 });
 
-router.get('/:id', [auth([1])], async (req, res) => {
+router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });
@@ -33,38 +35,46 @@ router.get('/:id', [auth([1])], async (req, res) => {
   res.send(tarea);
 });
 
-router.put('/:id', [auth([1]), validate(validateTarea)], async (req, res) => {
-  // Check for valid ObjectId
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(400).send({ message: 'The resource does not exist.' });
-  // Check if todo exists
-  let todo = await Todo.findOneAndUpdate(
-    {
-      _id: req.params.id,
-      userId: res.locals.userId,
-    },
-    req.body,
-    {
-      new: true,
-    }
-  );
-  // If todo does not exists return 404 error
-  if (!todo)
-    return res.status(400).send({ message: 'The resource does not exist.' });
-  res.send(todo);
-});
+router.put(
+  '/:id',
+  [auth(rolesAutorizados), validate(validateTarea)],
+  async (req, res) => {
+    // Check for valid ObjectId
+    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+      return res.status(400).send({ message: 'The resource does not exist.' });
+    // Check if todo exists
+    let todo = await Todo.findOneAndUpdate(
+      {
+        _id: req.params.id,
+        userId: res.locals.userId,
+      },
+      req.body,
+      {
+        new: true,
+      }
+    );
+    // If todo does not exists return 404 error
+    if (!todo)
+      return res.status(400).send({ message: 'The resource does not exist.' });
+    res.send(todo);
+  }
+);
 
-router.post('/', [auth([1]), validate(validateTarea)], async (req, res) => {
-  // Create new 'todo' document and save
-  let todo = req.body;
-  todo.userId = res.locals.userId;
-  let newTodo = new Todo(todo);
-  // Save document
-  newTodo = await newTodo.save();
-  res.send(newTodo);
-});
+router.post(
+  '/',
+  [auth(rolesAutorizados), validate(validateTarea)],
+  async (req, res) => {
+    // Create new 'todo' document and save
+    let todo = req.body;
+    todo.userId = res.locals.userId;
+    let newTodo = new Todo(todo);
+    // Save document
+    newTodo = await newTodo.save();
+    res.send(newTodo);
+  }
+);
 
-router.delete('/:id', [auth([1])], async (req, res) => {
+router.delete('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Check for valid ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res.status(400).send({ message: 'The resource does not exist.' });

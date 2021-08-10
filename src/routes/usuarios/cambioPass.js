@@ -13,16 +13,22 @@ const validarUpdate = (data) => {
   return schema.validate(data);
 };
 
-router.post('/', [auth([1]), validar(validarUpdate)], async (req, res) => {
-  // Generar Salt y Hash para nueva contraseña
-  const salt = await genSalt(10);
-  const hashedPass = await hash(req.body.passNueva, salt);
-  await Usuario.findOneAndUpdate(
-    { _id: res.locals.userId },
-    { pass: hashedPass },
-    { new: true }
-  );
-  res.send({ mensaje: 'Cambio de contraseña exitoso.' });
-});
+const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+
+router.post(
+  '/',
+  [auth(rolesAutorizados), validar(validarUpdate)],
+  async (req, res) => {
+    // Generar Salt y Hash para nueva contraseña
+    const salt = await genSalt(10);
+    const hashedPass = await hash(req.body.passNueva, salt);
+    await Usuario.findOneAndUpdate(
+      { _id: res.locals.userId },
+      { pass: hashedPass },
+      { new: true }
+    );
+    res.send({ mensaje: 'Cambio de contraseña exitoso.' });
+  }
+);
 
 module.exports = router;
