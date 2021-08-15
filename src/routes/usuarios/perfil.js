@@ -9,7 +9,6 @@ const validarInfo = (data) => {
   const schema = Joi.object({
     nombre: Joi.string(),
     apellido: Joi.string(),
-    email: Joi.string().email().required(),
     extension: Joi.number().min(100).max(500).allow(''),
   });
   return schema.validate(data);
@@ -19,28 +18,29 @@ const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 router.get('/', [auth(rolesAutorizados)], async (req, res) => {
   const usuario = await Usuario.findById(res.locals.usuarioId);
-  res.send(usuario);
+  res.send({
+    nombre: usuario.nombre,
+    apellido: usuario.apellido,
+    email: usuario.email,
+    extension: usuario.extension,
+  });
 });
 
 router.put(
   '/',
   [auth(rolesAutorizados), validar(validarInfo)],
   async (req, res) => {
-    // Revisar si el usuario envió email e id válidos
-    let valido = await Usuario.findOne({
-      _id: res.locals.usuarioId,
-      email: req.body.email,
-    });
-    if (!valido)
-      return res
-        .status(400)
-        .send({ mensaje: 'Email e Id de usuario no concuerdan.' });
     let usuario = await Usuario.findOneAndUpdate(
       { _id: res.locals.usuarioId },
       req.body,
       { new: true }
     );
-    res.send(usuario);
+    res.send({
+      nombre: usuario.nombre,
+      apellido: usuario.apellido,
+      email: usuario.email,
+      extension: usuario.extension,
+    });
   }
 );
 

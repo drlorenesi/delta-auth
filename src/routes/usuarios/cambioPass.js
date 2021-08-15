@@ -22,12 +22,17 @@ router.post(
     // Generar Salt y Hash para nueva contraseña
     const salt = await genSalt(10);
     const hashedPass = await hash(req.body.passNueva, salt);
-    await Usuario.findOneAndUpdate(
-      { _id: res.locals.userId },
+    const resultado = await Usuario.findOneAndUpdate(
+      { _id: res.locals.usuarioId },
       { pass: hashedPass },
       { new: true }
     );
-    res.send({ mensaje: 'Cambio de contraseña exitoso.' });
+    if (!resultado) {
+      return res
+        .status(400)
+        .send({ mensaje: 'Tu contraseña no pudo ser modificada.' });
+    }
+    res.send({ mensaje: 'Tu contraseña fue modificada existosamente.' });
   }
 );
 

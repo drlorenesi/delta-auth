@@ -5,6 +5,7 @@ const { compare } = require('bcryptjs');
 const validar = require('../../middleware/validar');
 const crearSesion = require('../../utils/crearSesion');
 const crearTokens = require('../../utils/crearTokens');
+const enviarCookies = require('../../utils/enviarCookies');
 const Usuario = require('../../models/usuario');
 const Sesion = require('../../models/sesion');
 
@@ -18,7 +19,7 @@ const validarLogin = (data) => {
 
 // Posibles errores
 // 400 - Email o contraseña inválida.
-// 401 - Tu cuenta aun no ha sido verificada.
+// 401 - Tu cuenta aun no ha sido activada.
 // 403 - Tu cuenta se encuentra temporalmente suspendida.
 
 router.post('/', [validar(validarLogin)], async (req, res) => {
@@ -28,11 +29,11 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   });
   if (!usuario)
     return res.status(400).send({ mensaje: 'Email o contraseña inválida.' });
-  // Revisar si el usuario ya fue verificado
-  if (!usuario.verificado)
+  // Revisar si el usuario ya fue activado
+  if (!usuario.activado)
     return res
       .status(401)
-      .send({ mensaje: 'Tu cuenta aun no ha sido verificada.' });
+      .send({ mensaje: 'Tu cuenta aun no ha sido activada.' });
   // Obtener pass de usuario
   const savedPassword = usuario.pass;
   // Comparar pass con la guardada en DB
@@ -47,12 +48,17 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   // Revisar si el usuario tiene sesiones activas
   const sesionesActivas = await Sesion.find({ 'usuario._id': usuario._id });
   if (sesionesActivas.length > 0) {
-    // Permitir solo 1 sesión activa a la vez
+    // Eliminar sesion activa. Permitir solo 1 sesión activa a la vez
     await Sesion.deleteMany({ 'usuario._id': usuario._id });
     // Crear nueva sesion
     const sesionId = await crearSesion(usuario._id, req);
     // Crear nuevos tokens
-    crearTokens(sesionId, usuario, res);
+    const { accessToken, refreshToken, infoSesion } = crearTokens(
+      sesionId,
+      usuario
+    );
+    // Enviar cookies
+    enviarCookies(accessToken, refreshToken, infoSesion, res);
     return res.send({
       mensaje:
         'Tu sesión ha iniciado. Por motivos de seguridad tu sesión anterior fue eliminada.',
@@ -60,8 +66,13 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   }
   // Si no hay sesión activa crear una nueva
   const sesionId = await crearSesion(usuario._id, req);
-  // Crear y enviar tokens
-  crearTokens(sesionId, usuario, res);
+  // Crear nuevos tokens
+  const { accessToken, refreshToken, infoSesion } = crearTokens(
+    sesionId,
+    usuario
+  );
+  // Enviar cookies
+  enviarCookies(accessToken, refreshToken, infoSesion, res);
   res.send({ mensaje: 'Tu sesión ha iniciado.' });
 });
 

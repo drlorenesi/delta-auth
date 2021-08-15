@@ -47,11 +47,11 @@ const usuarioSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    verificado: {
+    activado: {
       type: Boolean,
       default: false,
     },
-    codigoVerificador: String,
+    codigoActivador: String,
   },
   { timestamps: true }
 );

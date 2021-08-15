@@ -6,7 +6,7 @@ const eliminarCookies = require('../../utils/eliminarCookies');
 
 router.get('/', [], async (req, res) => {
   // Revisar si existe refreshToken
-  if (req.cookies.refreshToken) {
+  if (req.cookies?.refreshToken) {
     // Obtener refreshToken
     const { refreshToken } = req.cookies;
     // Decodificar accessToken

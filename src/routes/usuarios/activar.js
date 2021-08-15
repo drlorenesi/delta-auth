@@ -11,15 +11,15 @@ router.get('/', [], async (req, res) => {
   // Si no se encuentra a usuario
   if (!usuario) return res.redirect('/revisa.html');
   // Revisar si codigo de activación concuerda con el generado
-  if (usuario.codigoVerificador !== req.query.y)
+  if (usuario.codigoActivador !== req.query.y)
     return res.redirect('/revisa.html');
-  // Revisar si el usuario ya fue verificado
-  if (usuario.verificado) return res.redirect('/invalido.html');
-  // Actualizar verificado a 'true'
-  usuario.verificado = true;
+  // Revisar si el usuario ya fue activado
+  if (usuario.activado) return res.redirect('/invalido.html');
+  // Actualizar activado a 'true'
+  usuario.activado = true;
   // Guardar cambios en DB
   await usuario.save();
-  res.redirect('/verificado.html');
+  res.redirect('/activada.html');
 });
 
 module.exports = router;

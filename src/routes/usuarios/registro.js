@@ -12,7 +12,8 @@ const validarRegistro = (data) => {
     nombre: Joi.string().min(2).required(),
     apellido: Joi.string().min(2).required(),
     email: Joi.string().email().required(),
-    pass: Joi.string().min(3).required(),
+    pass: Joi.string().min(4).required(),
+    // Agregar validación adicional en UI
     confirmPass: Joi.string(),
   });
   return schema.validate(data);
@@ -24,7 +25,7 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
     email: req.body.email,
   });
   if (duplicado)
-    return res.status(400).send({ error: 'Por favor usar otro email.' });
+    return res.status(400).send({ mensaje: 'Por favor usar otro email.' });
   // Generar Salt y Hash a pass
   const salt = await genSalt(10);
   const hashedPass = await hash(req.body.pass, salt);
@@ -34,14 +35,14 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
     apellido: req.body.apellido,
     email: req.body.email,
     pass: hashedPass,
-    codigoVerificador: nanoid(),
+    codigoActivador: nanoid(),
   });
   usuario = await usuario.save();
   // Enviar email de activación de cuenta
   const { link, preview } = await emailActivarCuenta(
     usuario.nombre,
     usuario.email,
-    usuario.codigoVerificador
+    usuario.codigoActivador
   );
   res.status(201).send({
     mensaje: 'Por favor revisa tu email para activar tu cuenta.',
