@@ -52,6 +52,10 @@ const usuarioSchema = new mongoose.Schema(
       default: false,
     },
     codigoActivador: String,
+    codigoReinicio: {
+      type: String,
+      default: null,
+    },
   },
   { timestamps: true }
 );

@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-module.exports = async (nombre, email) => {
+module.exports = async (nombre, email, codigoReinicio) => {
   // https://nodemailer.com/about/
   // Generate test SMTP service account from ethereal.email
   // Only needed if you don't have a real mail account for testing
@@ -17,17 +17,17 @@ module.exports = async (nombre, email) => {
     },
   });
 
-  let link = `${process.env.URL_BASE}`;
-  // let link = `${process.env.URL_BASE}reset?x=${encodeURIComponent(
-  //   email
-  // )}&y=${codigoVerificador}`;
+  let link = `${process.env.URL_APP}/nueva?x=${encodeURIComponent(
+    email
+  )}&y=${codigoReinicio}`;
 
   let info = await transporter.sendMail({
     from: `"Node Auth API 👋" <no-reply@api.node.development>`,
     to: email,
     subject: 'Cambio de Contraseña',
     html: `<h3>¡Hola ${nombre}!</h3>
-      <p>Quieres cambiar tu contraseña?</p>`,
+      <p>Por favor haz click en el link de abajo para reiniciar tu contraseña:</p>
+      <p><a href="${link}">${link}</a></p>`,
   });
 
   let preview = nodemailer.getTestMessageUrl(info);

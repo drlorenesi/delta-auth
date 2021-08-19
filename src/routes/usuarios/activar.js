@@ -15,8 +15,9 @@ router.get('/', [], async (req, res) => {
     return res.redirect('/revisa.html');
   // Revisar si el usuario ya fue activado
   if (usuario.activado) return res.redirect('/invalido.html');
-  // Actualizar activado a 'true'
+  // Actualizar activado a 'true' y codigoActivador a 'null'
   usuario.activado = true;
+  usuario.codigoActivador = null;
   // Guardar cambios en DB
   await usuario.save();
   res.redirect('/activada.html');

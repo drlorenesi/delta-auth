@@ -9,6 +9,7 @@ Crea un archivo tipo `.env` en el folder raíz con la siguiente información:
 ```text
 FIRMA_JWT=
 URL_BASE=
+URL_APP=
 URL_MONGO=
 
 # Opcional #

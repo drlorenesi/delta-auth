@@ -18,8 +18,8 @@ module.exports = function (accessToken, refreshToken, infoSesion, res) {
         sameSite: 'none',
       })
       // Info de sesión para UI (guardar en 'local storage')
-      .header('info-session', infoSesion)
-      .header('access-control-expose-headers', 'info-session');
+      .header('info-sesion', infoSesion)
+      .header('access-control-expose-headers', 'info-sesion');
   } catch (error) {
     throw new Error('No fue posible crear cookies.');
   }
