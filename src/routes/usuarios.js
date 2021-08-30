@@ -6,6 +6,11 @@ const Joi = require('joi');
 const Usuario = require('../models/usuario');
 const auth = require('../middleware/auth');
 
+// PENDIENTE DE IMPLEMENTAR
+// PENDIENTE DE IMPLEMENTAR
+// PENDIENTE DE IMPLEMENTAR
+// PENDIENTE DE IMPLEMENTAR
+
 const validarUsuario = (data) => {
   const schema = Joi.object({
     nombre: Joi.string().min(2).required(),

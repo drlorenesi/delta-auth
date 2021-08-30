@@ -10,6 +10,7 @@ const validarInfo = (data) => {
     nombre: Joi.string(),
     apellido: Joi.string(),
     extension: Joi.number().min(100).max(500).allow(''),
+    email: Joi.string().email().required(),
   });
   return schema.validate(data);
 };
@@ -23,6 +24,7 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
     apellido: usuario.apellido,
     email: usuario.email,
     extension: usuario.extension,
+    ultimoIngreso: usuario.ultimoIngreso,
   });
 });
 
@@ -30,17 +32,26 @@ router.put(
   '/',
   [auth(rolesAutorizados), validar(validarInfo)],
   async (req, res) => {
-    let usuario = await Usuario.findOneAndUpdate(
-      { _id: res.locals.usuarioId },
-      req.body,
-      { new: true }
-    );
-    res.send({
-      nombre: usuario.nombre,
-      apellido: usuario.apellido,
-      email: usuario.email,
-      extension: usuario.extension,
-    });
+    // Revisar si el correo enviado por el usuario es el mismo que está registrado.
+    // No se deben autorizar actualizaciones de correos.
+    const usuario = await Usuario.findById(res.locals.usuarioId);
+    if (usuario.email === req.body.email) {
+      let actualizado = await Usuario.findOneAndUpdate(
+        { _id: res.locals.usuarioId },
+        req.body,
+        { new: true }
+      );
+      return res.send({
+        nombre: actualizado.nombre,
+        apellido: actualizado.apellido,
+        email: actualizado.email,
+        extension: actualizado.extension,
+      });
+    } else {
+      return res
+        .status(400)
+        .send({ mensaje: 'No puedes actualizar tu correo.' });
+    }
   }
 );
 

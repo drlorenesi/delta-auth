@@ -27,14 +27,14 @@ router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res
-      .status(400)
+      .status(404)
       .send({ mensaje: 'El recurso solicitado no existe.' });
   // Buscar el role
   const role = await Role.findById(req.params.id);
   // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
   if (!role)
     return res
-      .status(400)
+      .status(404)
       .send({ mensaje: 'El recurso solicitado no existe.' });
   res.send(role);
 });
@@ -47,14 +47,14 @@ router.put(
     // Validar ObjectId
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res
-        .status(400)
+        .status(404)
         .send({ mensaje: 'El recurso solicitado no existe.' });
     // Buscar el role a actualizar
     let role = await Role.findById(req.params.id);
     // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
     if (!role)
       return res
-        .status(400)
+        .status(404)
         .send({ mensaje: 'El recurso solicitado no existe.' });
     // Si el nivel es el mismo, proceder a actualizar
     if (parseInt(req.body.nivel, 10) === role.nivel) {

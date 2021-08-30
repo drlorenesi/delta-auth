@@ -59,7 +59,6 @@ module.exports = (param) => {
         return res.status(403).send({ mensaje: 'Acceso denegado.' });
       next();
     } else {
-      console.log('no token detected...');
       return res
         .status(401)
         .send({ mensaje: 'Acceso denegado. Por favor inicia sesión.' });

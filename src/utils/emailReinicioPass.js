@@ -22,7 +22,7 @@ module.exports = async (nombre, email, codigoReinicio) => {
   )}&y=${codigoReinicio}`;
 
   let info = await transporter.sendMail({
-    from: `"Node Auth API 👋" <no-reply@api.node.development>`,
+    from: `"Node Auth API 👋" <no-reply@api.app.dev>`,
     to: email,
     subject: 'Cambio de Contraseña',
     html: `<h3>¡Hola ${nombre}!</h3>

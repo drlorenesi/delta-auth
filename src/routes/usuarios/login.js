@@ -57,6 +57,11 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
       sesionId,
       usuario
     );
+    // Actualizar última fecha de ingreso del usuario
+    await Usuario.findOneAndUpdate(
+      { email: req.body.email },
+      { ultimoIngreso: new Date() }
+    );
     // Enviar cookies
     enviarCookies(accessToken, refreshToken, infoSesion, res);
     return res.send({
@@ -70,6 +75,11 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   const { accessToken, refreshToken, infoSesion } = crearTokens(
     sesionId,
     usuario
+  );
+  // Actualizar última fecha de ingreso del usuario
+  await Usuario.findOneAndUpdate(
+    { email: req.body.email },
+    { ultimoIngreso: new Date() }
   );
   // Enviar cookies
   enviarCookies(accessToken, refreshToken, infoSesion, res);

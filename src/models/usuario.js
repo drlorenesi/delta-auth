@@ -43,6 +43,10 @@ const usuarioSchema = new mongoose.Schema(
         default: 'General',
       },
     },
+    ultimoIngreso: {
+      type: Date,
+      default: new Date(),
+    },
     suspendido: {
       type: Boolean,
       default: false,
