@@ -1,15 +1,19 @@
-// pm2 start/stop/restart ecosystem.config.js
-// pm2 flush
 module.exports = {
   apps: [
     {
       // General
       name: 'Backend',
-      script: './src/server.js',
+      script: './apps/backend/server.js',
+      watch: './apps/backend',
+      watch_delay: 1000,
+      ignore_watch: [
+        './apps/backend/node_modules',
+        './apps/backend/.env',
+        './apps/backend/erros.log',
+      ],
       // Advanced Features
       instances: 4,
       exec_mode: 'cluster',
-      watch: true,
       max_memory_restart: '300M',
       env: {
         ENTORNO: 'produccion',
