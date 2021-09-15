@@ -21,17 +21,16 @@ router.post('/', [validate(validateEmail)], async (req, res) => {
     { new: true }
   );
   if (usuario) {
-    // Send reset password email
-    const { link, preview } = await emailReinicioPass(
+    // Enviar correo de re-inicio
+    const err = await emailReinicioPass(
       usuario.nombre,
       usuario.email,
       usuario.codigoReinicio
     );
+    if (err) return res.status(500).send({ mensaje: err });
     res.send({
       mensaje:
         'Revisa tu correo para obtener instrucciones sobre como reinicar tu contraseña.',
-      link,
-      preview,
     });
   } else {
     res.send({

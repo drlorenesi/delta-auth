@@ -7,8 +7,8 @@ module.exports = () => {
     console.error('ERROR TERMINAL: URL_MONGO no está definido.');
     process.exit(1);
   }
-  if (!process.env.URL_BASE) {
-    console.error('ERROR TERMINAL: URL_BASE no está definido.');
+  if (!process.env.URL_API) {
+    console.error('ERROR TERMINAL: URL_API no está definido.');
     process.exit(1);
   }
 };

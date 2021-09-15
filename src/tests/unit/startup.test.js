@@ -17,13 +17,13 @@ describe('Verificar variables de entorno en archivo ".env"', () => {
   it('- debería terminar el proceso con código de salida 1 si no se encuentra "FIRMA_JWT"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
-  // URL_BASE
-  it('- debería desplegar "ERROR TERMINAL: URL_BASE no está definido." en la consola', () => {
+  // URL_API
+  it('- debería desplegar "ERROR TERMINAL: URL_API no está definido." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'ERROR TERMINAL: URL_BASE no está definido.'
+      'ERROR TERMINAL: URL_API no está definido.'
     );
   });
-  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_BASE"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_API"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
   // URL_MONGO

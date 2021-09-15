@@ -37,18 +37,18 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
     pass: hashedPass,
     codigoActivador: nanoid(),
   });
-  usuario = await usuario.save();
   // Enviar email de activación de cuenta
-  const { link, preview } = await emailActivarCuenta(
+  const err = await emailActivarCuenta(
     usuario.nombre,
     usuario.email,
     usuario.codigoActivador
   );
-  res.status(201).send({
-    mensaje: 'Por favor revisa tu email para activar tu cuenta.',
-    link,
-    preview,
-  });
+  if (err) return res.status(500).send({ mensaje: err });
+  // Guardar usuario si no hay error de envío de email
+  usuario = await usuario.save();
+  res
+    .status(201)
+    .send({ mensaje: 'Por favor revisa tu email para activar tu cuenta.' });
 });
 
 module.exports = router;
