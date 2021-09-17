@@ -10,7 +10,7 @@ module.exports = async (nombre, email, codigoReinicio) => {
     await smtp.sendMail({
       from: `"Notificaciones 🍫" <${process.env.MAIL_USER}>`,
       to: email,
-      subject: 'Cambio de Contraseña',
+      subject: 'Reinicio de Contraseña',
       html: `<h3>¡Hola ${nombre}!</h3>
           <p>Por favor haz click en el link de abajo para reiniciar tu contraseña:</p>
           <p><a href="${link}">${link}</a></p>`,

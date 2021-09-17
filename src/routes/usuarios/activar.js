@@ -9,18 +9,28 @@ router.get('/', [], async (req, res) => {
     email: req.query.x,
   });
   // Si no se encuentra a usuario
-  if (!usuario) return res.redirect('/revisa.html');
+  if (!usuario)
+    return res.status(400).send({
+      mensaje: 'Por favor revisa tu enlace e intenta de nuevo.',
+    });
+  // Revisar si el usuario ya fue activado
+  if (usuario.activado)
+    return res.status(400).send({
+      mensaje: 'Este enlace ya no es válido.',
+    });
   // Revisar si codigo de activación concuerda con el generado
   if (usuario.codigoActivador !== req.query.y)
-    return res.redirect('/revisa.html');
-  // Revisar si el usuario ya fue activado
-  if (usuario.activado) return res.redirect('/invalido.html');
+    return res.status(400).send({
+      mensaje: 'Por favor revisa tu enlace e intenta de nuevo.',
+    });
   // Actualizar activado a 'true' y codigoActivador a 'null'
   usuario.activado = true;
   usuario.codigoActivador = null;
   // Guardar cambios en DB
   await usuario.save();
-  res.redirect('/activada.html');
+  return res.send({
+    mensaje: '¡Enhorabuena! Tu cuenta ha sido activada.',
+  });
 });
 
 module.exports = router;
