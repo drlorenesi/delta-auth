@@ -1,10 +1,11 @@
 const smtp = require('./smtp');
 
 module.exports = async (email) => {
+  let info;
   let err;
   try {
     console.log('Iniciando envío de correo...');
-    await smtp.sendMail({
+    info = await smtp.sendMail({
       from: `"Notificaciones 🍫" <${process.env.MAIL_USER}>`,
       to: email,
       subject: 'Email de Prueba',
@@ -17,5 +18,5 @@ module.exports = async (email) => {
     err = error.response;
   }
   // Retornar 'err' para evitar que el resto de la ruta se ejecute.
-  return err;
+  return { err, info };
 };

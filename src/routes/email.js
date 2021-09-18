@@ -5,10 +5,14 @@ const emailTest = require('../utils/emailTest');
 router.get('/', async (req, res) => {
   console.log(req.query.x);
   // Enviar email de prueba de cuenta
-  const err = await emailTest(req.query.x);
+  const { info, err } = await emailTest(req.query.x);
   if (err) return res.status(500).send({ mensaje: err });
+  console.log(info);
   res.send({
-    mensaje: 'Enviando correo...',
+    mensaje: 'Correo enviado!',
+    response: info.response,
+    info: info.envelope,
+    messageId: info.messageId,
   });
 });
 
