@@ -11,6 +11,7 @@ const tareas = require('../routes/usuarios/tareas');
 const roles = require('../routes/roles');
 const usuarios = require('../routes/usuarios');
 const check = require('../routes/check');
+const env = require('../routes/env');
 
 module.exports = (app) => {
   // Routes
@@ -26,4 +27,5 @@ module.exports = (app) => {
   app.use('/v1/roles', roles);
   app.use('/v1/usuarios', usuarios);
   app.use('/v1/check', check);
+  app.use('/v1/env', env);
 };
