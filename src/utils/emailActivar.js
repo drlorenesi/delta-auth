@@ -8,6 +8,7 @@ module.exports = async (nombre, email, codigoVerificador) => {
 
   let err;
   try {
+    console.log('Here');
     await smtp.sendMail({
       from: `"Notificaciones 🍫" <${process.env.MAIL_USER}>`,
       to: email,
