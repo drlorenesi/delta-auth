@@ -4,11 +4,15 @@ const nodemailer = require('nodemailer');
 let smtp = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
   port: process.env.MAIL_PORT,
-  secure: false, // true for 465, false for other ports
+  secure: true, // true for 465, false for other ports
   auth: {
     user: process.env.MAIL_USER,
     pass: process.env.MAIL_PASS,
   },
+  // tls: {
+  //   // do not fail on invalid certs
+  //   rejectUnauthorized: false,
+  // },
 });
 
 module.exports = smtp;
