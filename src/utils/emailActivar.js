@@ -1,6 +1,7 @@
 const smtp = require('./smtp');
 
 module.exports = async (nombre, email, codigoVerificador) => {
+  // Link de activacion de cuenta en Front End
   let link = `${process.env.URL_APP}/activar?x=${encodeURIComponent(
     email
   )}&y=${codigoVerificador}`;

@@ -18,7 +18,7 @@ const validarLogin = (data) => {
 };
 
 // Posibles errores
-// 400 - Email o contraseña inválida.
+// 400 - Email o contraseña inválida / Usuario no registrado.
 // 401 - Tu cuenta aun no ha sido activada.
 // 403 - Tu cuenta se encuentra temporalmente suspendida.
 

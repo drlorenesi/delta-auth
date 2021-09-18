@@ -16,7 +16,7 @@ router.get('/', [], async (req, res) => {
   // Revisar si el usuario ya fue activado
   if (usuario.activado)
     return res.status(400).send({
-      mensaje: 'Este enlace ya no es válido.',
+      mensaje: 'El enlace ya no es válido.',
     });
   // Revisar si codigo de activación concuerda con el generado
   if (usuario.codigoActivador !== req.query.y)

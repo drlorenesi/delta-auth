@@ -1,42 +1,44 @@
 const express = require('express');
 const router = express.Router();
 const Joi = require('joi');
-const { genSalt, hash } = require('bcryptjs');
-const validar = require('../../middleware/validar');
+const { nanoid } = require('nanoid');
+const validate = require('../../middleware/validar');
 const Usuario = require('../../models/usuario');
+const emailReinicio = require('../../utils/emailReinicio');
 
-const validarReinicio = (data) => {
+const validateEmail = (data) => {
   const schema = Joi.object({
-    pass: Joi.string().min(4).required(),
-    // Agregar validación adicional en UI
-    confirmPass: Joi.string(),
+    email: Joi.string().email().required(),
   });
   return schema.validate(data);
 };
 
-// Query String intencionalmente *no* validada por motivos de seguridad
-router.post('/', [validar(validarReinicio)], async (req, res) => {
-  // Buscar 'usuario' en DB
-  const usuario = await Usuario.findOne({
-    email: req.query.x,
-    codigoReinicio: req.query.y,
-  });
-  // Si no se encuentra a usuario
-  if (!usuario)
-    return res.status(400).send({
-      mensaje: 'Por favor revisa tu enlace o solicita un nuevo re-inicio.',
+router.post('/', [validate(validateEmail)], async (req, res) => {
+  // Buscar usuario y crear código de reinicio
+  const usuario = await Usuario.findOneAndUpdate(
+    { email: req.body.email },
+    { codigoReinicio: nanoid() },
+    { new: true }
+  );
+  // Si existe el usuario, enviar email de reinicio
+  if (usuario) {
+    // Enviar correo de re-inicio
+    const err = await emailReinicio(
+      usuario.nombre,
+      usuario.email,
+      usuario.codigoReinicio
+    );
+    if (err) return res.status(500).send({ mensaje: err });
+    res.send({
+      mensaje:
+        'Revisa tu correo para obtener instrucciones sobre como reinicar tu contraseña.',
     });
-  // Generar Salt y Hash a pass
-  const salt = await genSalt(10);
-  const hashedPass = await hash(req.body.pass, salt);
-  // Actualizar contraseña y eliminar codigoReinicio
-  usuario.pass = hashedPass;
-  usuario.codigoReinicio = null;
-  // Guardar cambios en DB
-  await usuario.save();
-  res.send({
-    mensaje: 'Tu contraseña fue cambiada existosamente.',
-  });
+  } else {
+    res.send({
+      mensaje:
+        'Revisa tu correo para obtener instrucciones sobre como reinicar tu contraseña.',
+    });
+  }
 });
 
 module.exports = router;

@@ -13,7 +13,6 @@ const corsOptions = {
 module.exports = (app) => {
   app.use(cors(corsOptions));
   app.use(express.json());
-  app.use(express.static('./src/public'));
   app.use(cookieParser());
   if (process.env.ENTORNO === 'desarrollo') {
     app.use(morgan('dev'));
