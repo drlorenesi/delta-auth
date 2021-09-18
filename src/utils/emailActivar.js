@@ -16,6 +16,7 @@ module.exports = async (nombre, email, codigoVerificador) => {
           <p>Gracias por registrarte. Por favor haz click en el enlace de abajo para activar tu cuenta:</p>
           <p><a href="${link}">${link}</a></p>`,
     });
+    console.log('Enviando email de activación...');
   } catch (error) {
     err = error.response;
   }

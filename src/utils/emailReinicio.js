@@ -17,6 +17,7 @@ module.exports = async (nombre, email, codigoReinicio) => {
           <p><a href="${link}">${link}</a></p>
           <p>Este enlace será válido hasta que inicies una nueva sesión.</p>`,
     });
+    console.log('Enviando email de reinicio...');
   } catch (error) {
     err = error.response;
     console.log(err);
