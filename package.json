@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "description": "Express authentication template.",
   "main": "index.js",
+  "engines": {
+    "node": ">=14.0.0"
+  },
   "scripts": {
     "start": "cross-env ENTORNO=produccion node ./src/server.js",
     "dev": "cross-env ENTORNO=desarrollo nodemon ./src/server.js",
@@ -26,6 +29,7 @@
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
     "cors": "^2.8.5",
+    "cross-env": "^7.0.3",
     "dotenv": "^10.0.0",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
@@ -40,7 +44,6 @@
     "winston": "^3.3.3"
   },
   "devDependencies": {
-    "cross-env": "^7.0.3",
     "jest": "^27.0.6",
     "supertest": "^6.1.4"
   }
