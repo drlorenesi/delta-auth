@@ -10,9 +10,9 @@ const pass = require('../routes/usuarios/pass');
 const tareas = require('../routes/usuarios/tareas');
 const roles = require('../routes/roles');
 const usuarios = require('../routes/usuarios');
-const check = require('../routes/check');
-const debugSentry = require('../routes/debug-sentry');
 const email = require('../routes/email');
+const check = require('../routes/check');
+const debug = require('../routes/debug');
 
 module.exports = (app) => {
   // Routes
@@ -27,7 +27,7 @@ module.exports = (app) => {
   app.use('/v1/usuarios/tareas', tareas);
   app.use('/v1/roles', roles);
   app.use('/v1/usuarios', usuarios);
-  app.use('/v1/check', check);
   app.use('/v1/email', email);
-  app.use('/v1/debug-sentry', debugSentry);
+  app.use('/v1/check', check);
+  app.use('/v1/debug', debug);
 };

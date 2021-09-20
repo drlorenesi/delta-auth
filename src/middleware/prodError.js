@@ -5,8 +5,8 @@ module.exports = (app) => {
     // and optionally displayed to the user for support.
     res.statusCode = 500;
     res.end(
-      'Ocurrió un error en el servidor y no se pudo llevar acabo la solicitud..\n' +
-        'Por favor tomar nota del siguiente código de error: ' +
+      'Ocurrio un error en el servidor y no se pudo llevar acabo la solicitud..\n' +
+        'Por favor tomar nota del siguiente codigo de error: ' +
         res.sentry
     );
   });

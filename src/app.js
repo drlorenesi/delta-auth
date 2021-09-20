@@ -9,7 +9,7 @@ require('./config/startup')();
 // Prod Logger
 if (process.env.ENTORNO === 'produccion') {
   Sentry.init({
-    dsn: process.env.SENTRY,
+    dsn: process.env.URL_SENTRY,
     integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),
@@ -30,7 +30,7 @@ if (process.env.ENTORNO === 'produccion') {
 }
 // Dev Logger
 if (process.env.ENTORNO === 'desarrollo') {
-  require('./config/devLogger');
+  require('./config/logger');
 }
 // Middleware
 require('./config/middleware')(app);
