@@ -33,6 +33,7 @@ router.post('/', [validate(validateEmail)], async (req, res) => {
       mensaje:
         'Revisa tu correo para obtener instrucciones sobre como reinicar tu contraseña.',
     });
+    // Si no existe el usuario solo mostrar mensaje
   } else {
     res.send({
       mensaje:

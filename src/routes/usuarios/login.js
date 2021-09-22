@@ -60,7 +60,7 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
     // Actualizar última fecha de ingreso del usuario
     await Usuario.findOneAndUpdate(
       { email: req.body.email },
-      { ultimoIngreso: new Date() }
+      { $set: { ultimoIngreso: new Date(), codigoReinicio: null } }
     );
     // Enviar cookies
     enviarCookies(accessToken, refreshToken, infoSesion, res);
@@ -79,7 +79,7 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
   // Actualizar última fecha de ingreso del usuario
   await Usuario.findOneAndUpdate(
     { email: req.body.email },
-    { ultimoIngreso: new Date() }
+    { $set: { ultimoIngreso: new Date(), codigoReinicio: null } }
   );
   // Enviar cookies
   enviarCookies(accessToken, refreshToken, infoSesion, res);
