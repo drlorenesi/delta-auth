@@ -24,7 +24,7 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
     apellido: usuario.apellido,
     email: usuario.email,
     extension: usuario.extension,
-    ultimoIngreso: usuario.ultimoIngreso,
+    ingresoAnterior: usuario.ingresoAnterior,
   });
 });
 

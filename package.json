@@ -4,7 +4,7 @@
   "description": "Express authentication template.",
   "main": "index.js",
   "engines": {
-    "node": ">=14.0.0"
+    "node": ">=16.0.0"
   },
   "scripts": {
     "start": "cross-env ENTORNO=produccion node ./src/server.js",
@@ -23,8 +23,8 @@
   },
   "homepage": "https://github.com/drlorenesi/express-node-auth#readme",
   "dependencies": {
-    "@sentry/node": "^6.13.1",
-    "@sentry/tracing": "^6.13.1",
+    "@sentry/node": "^6.13.2",
+    "@sentry/tracing": "^6.13.2",
     "bcryptjs": "^2.4.3",
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",

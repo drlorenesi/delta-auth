@@ -43,7 +43,11 @@ const usuarioSchema = new mongoose.Schema(
         default: 'General',
       },
     },
-    ultimoIngreso: {
+    ingresoActual: {
+      type: Date,
+      default: new Date(),
+    },
+    ingresoAnterior: {
       type: Date,
       default: new Date(),
     },
