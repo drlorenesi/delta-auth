@@ -1,9 +1,8 @@
-module.exports = function (accessToken, refreshToken, infoSesion, res) {
+module.exports = function (accessToken, refreshToken, sessionInfo, res) {
   try {
-    // Enviar tokens como cookies seguras e infoSesion como header
+    // Enviar tokens como cookies seguras e sessionInfo como header
     res
       .cookie('accessToken', accessToken, {
-        // Nota: maxAge es opcional para el accessToken
         // maxAge: 1000 * 60 * 60 * 1, // cookie será eliminada después de 1 hora
         maxAge: 1000 * 60 * 5, // 5 min
         httpOnly: true,
@@ -17,9 +16,9 @@ module.exports = function (accessToken, refreshToken, infoSesion, res) {
         secure: true,
         sameSite: 'none',
       })
-      // Info de sesión para UI (guardar en 'local storage')
-      .header('info-sesion', infoSesion)
-      .header('access-control-expose-headers', 'info-sesion');
+      // Info de sesión para cliente, guardar en 'local storage'
+      .header('session-info', sessionInfo)
+      .header('access-control-expose-headers', 'session-info');
   } catch (error) {
     throw new Error('No fue posible crear cookies.');
   }

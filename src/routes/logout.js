@@ -1,8 +1,9 @@
 const express = require('express');
-const router = express.Router();
 const jwt = require('jsonwebtoken');
-const Sesion = require('../../models/sesion');
-const eliminarCookies = require('../../utils/eliminarCookies');
+const eliminarCookies = require('../utils/eliminarCookies');
+const Session = require('../models/session');
+
+const router = express.Router();
 
 router.get('/', [], async (req, res) => {
   // Revisar si existe refreshToken
@@ -10,9 +11,9 @@ router.get('/', [], async (req, res) => {
     // Obtener refreshToken
     const { refreshToken } = req.cookies;
     // Decodificar accessToken
-    const { sesionId } = jwt.verify(refreshToken, process.env.FIRMA_JWT);
+    const { sessionId } = jwt.verify(refreshToken, process.env.FIRMA_JWT);
     // Eliminar session de DB
-    await Sesion.deleteOne({ sesionId });
+    await Session.deleteOne({ sessionId });
   }
   eliminarCookies(res);
   res.send({ mensaje: 'Tu sesión ha terminado.' });

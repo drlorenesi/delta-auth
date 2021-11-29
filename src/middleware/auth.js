@@ -1,10 +1,10 @@
 // Middleware que espera un array de 'roles' permitidos para acceder a un recurso
 // Ejemplo: [auth([0, 1, 2, 3, ...])]
 const jwt = require('jsonwebtoken');
-const Sesion = require('../models/sesion');
+const Session = require('../models/session');
 const Usuario = require('../models/usuario');
 const crearTokens = require('../utils/crearTokens');
-const enviarCookies = require('../utils/enviarCookies');
+const crearCookies = require('../utils/crearCookies');
 const eliminarCookies = require('../utils/eliminarCookies');
 
 module.exports = (param) => {
@@ -30,27 +30,27 @@ module.exports = (param) => {
     // B. Revisar si existe refreshToken (usuar 'optional chaining: "?"' para evitar errores)
     else if (req.cookies?.refreshToken) {
       // Decodificar refreshToken
-      const { sesionId } = jwt.verify(
+      const { sessionId } = jwt.verify(
         req.cookies.refreshToken,
         process.env.FIRMA_JWT
       );
-      // Obtener información sobre la sesion
-      const sesion = await Sesion.findOne({ sesionId });
-      if (!sesion || !sesion.valida) {
+      // Obtener información sobre la sesión
+      const session = await Session.findOne({ sessionId });
+      if (!session || !session.valida) {
         eliminarCookies(res);
         return res
           .status(401)
           .send({ mensaje: 'Acceso denegado. Por favor inicia sesión.' });
       }
       // Si la sesión es válida, buscar a usuario
-      const usuario = await Usuario.findOne({ _id: sesion.usuario._id });
+      const usuario = await Usuario.findOne({ _id: session.usuario._id });
       // Crear nuevos tokens
-      const { accessToken, refreshToken, infoSesion } = crearTokens(
-        sesionId,
+      const { accessToken, refreshToken, sessionInfo } = crearTokens(
+        sessionId,
         usuario
       );
-      // Enviar nuevas cookies
-      enviarCookies(accessToken, refreshToken, infoSesion, res);
+      // Crear nuevas cookies
+      crearCookies(accessToken, refreshToken, sessionInfo, res);
       // Agregar usuarioId a 'res.locals' para poder utilizarlo en la próxima función.
       res.locals.usuarioId = usuario._id;
       res.locals.role = usuario.role.nivel;

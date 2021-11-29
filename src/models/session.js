@@ -29,16 +29,12 @@ const usuarioSchema = new mongoose.Schema({
   },
 });
 
-const sesionSchema = new mongoose.Schema(
+const sessionSchema = new mongoose.Schema(
   {
-    sesionId: { type: String, index: true },
+    sessionId: { type: String, index: true },
     usuario: {
       type: usuarioSchema,
       required: true,
-    },
-    valida: {
-      type: Boolean,
-      default: true,
     },
     userAgent: String,
     ip: String,
@@ -46,5 +42,5 @@ const sesionSchema = new mongoose.Schema(
   { timestamps: true }
 );
 
-const Sesion = mongoose.model('Sesion', sesionSchema);
-module.exports = Sesion;
+const Session = mongoose.model('Session', sessionSchema);
+module.exports = Session;

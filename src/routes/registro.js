@@ -1,11 +1,12 @@
 const express = require('express');
-const router = express.Router();
 const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validar = require('../../middleware/validar');
-const emailActivar = require('../../utils/emailActivar');
-const Usuario = require('../../models/usuario');
+const validar = require('../middleware/validar');
+const emailVerificar = require('../utils/emailVerificar');
+const Usuario = require('../models/usuario');
+
+const router = express.Router();
 
 const validarRegistro = (data) => {
   const schema = Joi.object({
@@ -13,7 +14,7 @@ const validarRegistro = (data) => {
     apellido: Joi.string().min(2).required(),
     email: Joi.string().email().required(),
     pass: Joi.string().min(4).required(),
-    // Agregar validación adicional en UI
+    // Comprobar que contraseñas son iguales en UI
     confirmPass: Joi.string(),
   });
   return schema.validate(data);
@@ -35,20 +36,23 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
     apellido: req.body.apellido,
     email: req.body.email,
     pass: hashedPass,
-    codigoActivador: nanoid(),
+    codigoVerificador: nanoid(),
   });
   // Enviar email de activación de cuenta
-  const err = await emailActivar(
+  const err = await emailVerificar(
     usuario.nombre,
     usuario.email,
-    usuario.codigoActivador
+    usuario.codigoVerificador
   );
-  if (err) return res.status(500).send({ mensaje: err });
+  if (err)
+    return res
+      .status(500)
+      .send({ mensaje: 'No fue posible completar el registro.', error: err });
   // Guardar usuario si no hay error de envío de email
-  usuario = await usuario.save();
+  await usuario.save();
   res
     .status(201)
-    .send({ mensaje: 'Por favor revisa tu email para activar tu cuenta.' });
+    .send({ mensaje: 'Por favor revisa tu email para verificar tu cuenta.' });
 });
 
 module.exports = router;

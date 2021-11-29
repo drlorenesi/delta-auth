@@ -1,11 +1,3 @@
-{
-	local_certs
-}
+localhost
 
-app.dev {
-	reverse_proxy 127.0.0.1:3000
-}
-
-api.app.dev {
-	reverse_proxy 127.0.0.1:9000
-}
+reverse_proxy 127.0.0.1:9000

@@ -1,9 +1,10 @@
 const express = require('express');
-const router = express.Router();
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
 const validar = require('../../middleware/validar');
 const Usuario = require('../../models/usuario');
+
+const router = express.Router();
 
 const validarReinicio = (data) => {
   const schema = Joi.object({

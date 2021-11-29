@@ -1,6 +1,6 @@
 module.exports = function (res) {
   try {
-    // Eliminar Cookies. Tomar en cuenta nota de abajo.
+    // Eliminar Cookies. Tomar en cuenta:
     // "Web browsers and other compliant clients will only clear the cookie if
     // the given options is identical to those given to res.cookie(),
     // excluding expires and maxAge."

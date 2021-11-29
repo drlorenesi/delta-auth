@@ -1,15 +1,16 @@
+// If you are using an `.env` file,
+// make sure it is on the same level as ecosystem.config.js file
 module.exports = {
   apps: [
     {
       // General
-      name: 'Backend',
-      script: './apps/backend/server.js',
-      watch: './apps/backend',
+      name: 'Node Auth',
+      script: './apps/node-auth/src/server.js',
+      watch: './apps/node-auth',
       watch_delay: 1000,
       ignore_watch: [
-        './apps/backend/node_modules',
-        './apps/backend/.env',
-        './apps/backend/erros.log',
+        './apps/node-auth/node_modules',
+        './apps/node-auth/erros.log',
       ],
       // Advanced Features
       instances: 4,

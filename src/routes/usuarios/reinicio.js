@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
 const Joi = require('joi');
 const { nanoid } = require('nanoid');
 const validate = require('../../middleware/validar');
-const Usuario = require('../../models/usuario');
 const emailReinicio = require('../../utils/emailReinicio');
+const Usuario = require('../../models/usuario');
+
+const router = express.Router();
 
 const validateEmail = (data) => {
   const schema = Joi.object({

@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const validar = require('../middleware/validar');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const Usuario = require('../models/usuario');
+const validar = require('../middleware/validar');
 const auth = require('../middleware/auth');
+const Usuario = require('../models/usuario');
+
+const router = express.Router();
 
 // PENDIENTE DE IMPLEMENTAR
 // PENDIENTE DE IMPLEMENTAR

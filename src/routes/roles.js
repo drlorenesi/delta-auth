@@ -1,10 +1,11 @@
 const express = require('express');
-const router = express.Router();
-const validar = require('../middleware/validar');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const Role = require('../models/role');
+const validar = require('../middleware/validar');
 const auth = require('../middleware/auth');
+const Role = require('../models/role');
+
+const router = express.Router();
 
 const validarRole = (data) => {
   const schema = Joi.object({

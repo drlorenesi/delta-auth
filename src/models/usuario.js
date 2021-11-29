@@ -15,8 +15,9 @@ const usuarioSchema = new mongoose.Schema(
       required: true,
     },
     extension: {
-      type: Number,
-      default: null,
+      type: String,
+      maxLength: 255,
+      trim: true,
     },
     email: {
       type: String,
@@ -55,11 +56,11 @@ const usuarioSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    activado: {
+    verificado: {
       type: Boolean,
       default: false,
     },
-    codigoActivador: String,
+    codigoVerificador: String,
     codigoReinicio: {
       type: String,
       default: null,
