@@ -1,9 +1,9 @@
 const express = require('express');
 const Joi = require('joi');
 const { nanoid } = require('nanoid');
-const validate = require('../../middleware/validar');
-const emailReinicio = require('../../utils/emailReinicio');
-const Usuario = require('../../models/usuario');
+const validate = require('../middleware/validar');
+const emailReinicio = require('../utils/emailReinicio');
+const Usuario = require('../models/usuario');
 
 const router = express.Router();
 

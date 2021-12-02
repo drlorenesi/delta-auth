@@ -56,11 +56,14 @@ const usuarioSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    codigoVerificador: {
+      type: String,
+      default: null,
+    },
     verificado: {
       type: Boolean,
       default: false,
     },
-    codigoVerificador: String,
     codigoReinicio: {
       type: String,
       default: null,

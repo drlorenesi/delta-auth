@@ -17,22 +17,22 @@ describe('Verificar variables de entorno en archivo ".env"', () => {
   it('- debería terminar el proceso con código de salida 1 si no se encuentra "FIRMA_JWT"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
-  // URL_APP
-  it('- debería desplegar "ERROR TERMINAL: URL_APP no está definido." en la consola', () => {
+  // APP_URL
+  it('- debería desplegar "ERROR TERMINAL: APP_URL no está definido." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'ERROR TERMINAL: URL_APP no está definido.'
+      'ERROR TERMINAL: APP_URL no está definido.'
     );
   });
-  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_APP"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "APP_URL"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
-  // URL_MONGO
-  it('- debería desplegar "ERROR TERMINAL: URL_MONGO no está definido." en la consola', () => {
+  // MONGO_URL
+  it('- debería desplegar "ERROR TERMINAL: MONGO_URL no está definido." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'ERROR TERMINAL: URL_MONGO no está definido.'
+      'ERROR TERMINAL: MONGO_URL no está definido.'
     );
   });
-  it('- debería terminar el proceso con código de salida 1 si no se encuentra "URL_MONGO"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "MONGO_URL"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
 });

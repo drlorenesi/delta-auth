@@ -1,8 +1,8 @@
 const smtp = require('./smtp');
 
 module.exports = async (nombre, email, codigoReinicio) => {
-  // Link de cambio de contraseña en Front End
-  let link = `${process.env.URL_APP}/nueva?x=${encodeURIComponent(
+  // Link de cambio de contraseña en Cliente
+  let link = `${process.env.APP_URL}/nueva?x=${encodeURIComponent(
     email
   )}&y=${codigoReinicio}`;
 

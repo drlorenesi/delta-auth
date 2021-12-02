@@ -9,7 +9,7 @@ require('./config/startup')();
 // Prod Logger
 if (process.env.ENTORNO === 'produccion') {
   Sentry.init({
-    dsn: process.env.URL_SENTRY,
+    dsn: process.env.SENTRY_URL,
     integrations: [
       // enable HTTP calls tracing
       new Sentry.Integrations.Http({ tracing: true }),

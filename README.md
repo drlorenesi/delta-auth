@@ -8,11 +8,11 @@ Crea un archivo tipo `.env` en el folder raíz con la siguiente información:
 
 ```text
 FIRMA_JWT=
-URL_APP=
-URL_MONGO=
+APP_URL=
+MONGO_URL=
 
 # Opcional #
-URL_SENTRY=
+SENTRY_URL=
 MAIL_HOST=
 MAIL_PORT=
 MAIL_USER=

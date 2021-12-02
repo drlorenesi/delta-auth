@@ -1,8 +1,8 @@
 const express = require('express');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validar = require('../../middleware/validar');
-const Usuario = require('../../models/usuario');
+const validar = require('../middleware/validar');
+const Usuario = require('../models/usuario');
 
 const router = express.Router();
 
@@ -22,11 +22,11 @@ router.post('/', [validar(validarReinicio)], async (req, res) => {
     email: req.query.x,
     codigoReinicio: req.query.y,
   });
-  console.log(usuario);
   // Si no se encuentra a usuario
   if (!usuario)
     return res.status(400).send({
-      mensaje: 'Por favor revisa tu enlace o solicita un nuevo re-inicio.',
+      mensaje:
+        'Por favor revisa tu enlace o solicita un nuevo re-inicio de contraseña.',
     });
   // Generar Salt y Hash a pass
   const salt = await genSalt(10);
