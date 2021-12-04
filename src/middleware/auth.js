@@ -1,4 +1,5 @@
-// Middleware que espera un array de 'roles' permitidos para acceder a un recurso
+// Middleware que identifica a usuario y espera un array de 'roles'
+// autorizados para acceder a un recurso
 // Ejemplo: [auth([0, 1, 2, 3, ...])]
 const jwt = require('jsonwebtoken');
 const Session = require('../models/session');
@@ -9,12 +10,13 @@ const eliminarCookies = require('../utils/eliminarCookies');
 
 module.exports = (param) => {
   return async (req, res, next) => {
-    // A. Revisar si existe accessToken (usuar 'optional chaining: "?"' para evitar errores)
-    if (req.cookies?.accessToken) {
+    // 1. Revisar si existe accessToken
+    // --------------------------------
+    if (req.cookies.accessToken) {
       // Decodificar accessToken
       const { usuarioId, role } = jwt.verify(
         req.cookies.accessToken,
-        process.env.FIRMA_JWT
+        process.env.JWT_SIGNATURE
       );
       // Agregar usuarioId a 'res.locals' para poder utilizarlo en la próxima función.
       // Por ejemplo:
@@ -27,12 +29,13 @@ module.exports = (param) => {
         return res.status(403).send({ mensaje: 'Acceso denegado.' });
       next();
     }
-    // B. Revisar si existe refreshToken (usuar 'optional chaining: "?"' para evitar errores)
-    else if (req.cookies?.refreshToken) {
+    // 2. Revisar si existe refreshToken
+    // ---------------------------------
+    else if (req.cookies.refreshToken) {
       // Decodificar refreshToken
       const { sessionId } = jwt.verify(
         req.cookies.refreshToken,
-        process.env.FIRMA_JWT
+        process.env.JWT_SIGNATURE
       );
       // Obtener información sobre la sesión
       const session = await Session.findOne({ sessionId });
@@ -58,6 +61,8 @@ module.exports = (param) => {
       if (!param.includes(usuario.role.nivel))
         return res.status(403).send({ mensaje: 'Acceso denegado.' });
       next();
+      // 3. Si usuario no cuenta con token(s)
+      // ------------------------------------
     } else {
       return res
         .status(401)

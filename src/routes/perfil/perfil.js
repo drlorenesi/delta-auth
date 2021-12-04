@@ -10,8 +10,7 @@ const validarInfo = (data) => {
   const schema = Joi.object({
     nombre: Joi.string(),
     apellido: Joi.string(),
-    extension: Joi.number().min(100).max(500).allow(''),
-    email: Joi.string().email().required(),
+    extension: Joi.string(),
   });
   return schema.validate(data);
 };
@@ -25,7 +24,7 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
     apellido: usuario.apellido,
     email: usuario.email,
     extension: usuario.extension,
-    ingresoAnterior: usuario.ingresoAnterior,
+    ultimoIngreso: usuario.ultimoIngreso,
   });
 });
 
@@ -33,26 +32,12 @@ router.put(
   '/',
   [auth(rolesAutorizados), validar(validarInfo)],
   async (req, res) => {
-    // Revisar si el correo enviado por el usuario es el mismo que está registrado.
-    // No se deben autorizar actualizaciones de correos.
-    const usuario = await Usuario.findById(res.locals.usuarioId);
-    if (usuario.email === req.body.email) {
-      let actualizado = await Usuario.findOneAndUpdate(
-        { _id: res.locals.usuarioId },
-        req.body,
-        { new: true }
-      );
-      return res.send({
-        nombre: actualizado.nombre,
-        apellido: actualizado.apellido,
-        email: actualizado.email,
-        extension: actualizado.extension,
-      });
-    } else {
-      return res
-        .status(400)
-        .send({ mensaje: 'No puedes actualizar tu correo.' });
-    }
+    let usuario = await Usuario.findById(res.locals.usuarioId);
+    req.body?.nombre && (usuario.nombre = req.body.nombre);
+    req.body?.apellido && (usuario.apellido = req.body.apellido);
+    req.body?.extension && (usuario.extension = req.body.extension);
+    await usuario.save();
+    res.send({ mensaje: 'Perfil actualizado.' });
   }
 );
 

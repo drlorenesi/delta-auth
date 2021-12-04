@@ -1,3 +1,4 @@
+// IMPORTANTE: Éste módulo es el encargado de asignar tiempos de sesión
 module.exports = function (accessToken, refreshToken, sessionInfo, res) {
   try {
     // Enviar tokens como cookies seguras e sessionInfo como header

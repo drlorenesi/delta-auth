@@ -9,10 +9,10 @@ module.exports = function (sessionId, usuario) {
     // llevar acabo solicitudes del cliente
     const accessToken = jwt.sign(
       { sessionId, usuarioId: usuario._id, role: usuario.role.nivel },
-      process.env.FIRMA_JWT
+      process.env.JWT_SIGNATURE
     );
     // Crear 'refreshToken' únicamente con el id de la sesión
-    const refreshToken = jwt.sign({ sessionId }, process.env.FIRMA_JWT);
+    const refreshToken = jwt.sign({ sessionId }, process.env.JWT_SIGNATURE);
     // Enviar info de sesión y guardar en 'local storage' del cliente
     const sessionInfo = jwt.sign(
       {
@@ -22,7 +22,7 @@ module.exports = function (sessionId, usuario) {
         email: usuario.email,
         role: usuario.role.nivel,
       },
-      process.env.FIRMA_JWT
+      process.env.JWT_SIGNATURE
     );
     return { accessToken, refreshToken, sessionInfo };
   } catch (error) {

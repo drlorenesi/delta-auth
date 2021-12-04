@@ -55,7 +55,7 @@ router.post('/', [validar(validarLogin)], async (req, res) => {
     {
       $set: {
         ingresoActual: new Date(),
-        ingresoAnterior: usuario.ingresoActual,
+        ultimoIngreso: usuario.ingresoActual,
         codigoReinicio: null,
       },
     }

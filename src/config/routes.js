@@ -25,12 +25,12 @@ module.exports = (app) => {
   app.use('/v1/logout', logout);
   app.use('/v1/solicitar', solicitar);
   app.use('/v1/nueva', nueva);
+  app.use('/v1/perfil', perfil);
   // Utils
   app.use('/v1/email', email);
   app.use('/v1/check', check);
   app.use('/v1/debug', debug);
   // --
-  app.use('/v1/perfil', perfil);
   app.use('/v1/perfil/pass', pass);
   app.use('/v1/roles', roles);
   app.use('/v1/usuarios', usuarios);

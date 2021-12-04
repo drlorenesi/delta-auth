@@ -7,7 +7,7 @@ Este proyecto es una aplicación básica, tipo REST API, para autenticar y crear
 Crea un archivo tipo `.env` en el folder raíz con la siguiente información:
 
 ```text
-FIRMA_JWT=
+JWT_SIGNATURE=
 APP_URL=
 MONGO_URL=
 

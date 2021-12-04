@@ -8,13 +8,13 @@ global.console = { error: jest.fn() };
 startUp();
 
 describe('Verificar variables de entorno en archivo ".env"', () => {
-  // FIRMA_JWT
-  it('- debería desplegar "ERROR TERMINAL: FIRMA_JWT no está definida." en la consola', () => {
+  // JWT_SIGNATURE
+  it('- debería desplegar "ERROR TERMINAL: JWT_SIGNATURE no está definida." en la consola', () => {
     expect(console.error).toHaveBeenCalledWith(
-      'ERROR TERMINAL: FIRMA_JWT no está definida.'
+      'ERROR TERMINAL: JWT_SIGNATURE no está definida.'
     );
   });
-  it('- debería terminar el proceso con código de salida 1 si no se encuentra "FIRMA_JWT"', () => {
+  it('- debería terminar el proceso con código de salida 1 si no se encuentra "JWT_SIGNATURE"', () => {
     expect(mockExit).toHaveBeenCalledWith(1);
   });
   // APP_URL

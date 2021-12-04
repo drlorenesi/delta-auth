@@ -11,7 +11,7 @@ router.get('/', [], async (req, res) => {
     // Obtener refreshToken
     const { refreshToken } = req.cookies;
     // Decodificar accessToken
-    const { sessionId } = jwt.verify(refreshToken, process.env.FIRMA_JWT);
+    const { sessionId } = jwt.verify(refreshToken, process.env.JWT_SIGNATURE);
     // Eliminar session de DB
     await Session.deleteOne({ sessionId });
   }
