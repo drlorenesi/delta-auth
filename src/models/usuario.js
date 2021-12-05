@@ -35,7 +35,10 @@ const usuarioSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    role: { type: roleSchema, required: true },
+    role: {
+      type: roleSchema,
+      required: true,
+    },
     ingresoActual: {
       type: Date,
       default: new Date(),

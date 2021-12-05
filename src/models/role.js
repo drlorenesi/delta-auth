@@ -14,7 +14,6 @@ const mongoose = require('mongoose');
 const roleSchema = new mongoose.Schema({
   nivel: {
     type: Number,
-    // unique: true,
     required: true,
   },
   descripcion: {
@@ -22,9 +21,9 @@ const roleSchema = new mongoose.Schema({
     maxLength: 255,
     trim: true,
     required: true,
+    maxLength: 255,
   },
 });
 
 exports.roleSchema = roleSchema;
 exports.Role = mongoose.model('Role', roleSchema);
-// module.exports = mongoose.model('Role', roleSchema);

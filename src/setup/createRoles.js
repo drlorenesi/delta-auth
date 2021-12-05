@@ -1,6 +1,6 @@
 require('dotenv').config();
 const connect = require('../config/db');
-const { Role } = require('../models/Role');
+const { Role } = require('../models/role');
 
 const roles = [
   { nivel: 0, descripcion: 'Administrador' },
