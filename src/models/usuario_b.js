@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const { roleSchema } = require('./role');
+const { roleSchema } = require('./Role');
 
 const usuarioSchema = new mongoose.Schema(
   {
@@ -35,7 +35,16 @@ const usuarioSchema = new mongoose.Schema(
       trim: true,
       required: true,
     },
-    role: { type: roleSchema, required: true },
+    role: {
+      nivel: {
+        type: Number,
+        default: 10,
+      },
+      descripcion: {
+        type: String,
+        default: 'General',
+      },
+    },
     ingresoActual: {
       type: Date,
       default: new Date(),

@@ -37,17 +37,21 @@ router.post('/', [validar(validarRegistro)], async (req, res) => {
     email: req.body.email,
     pass: hashedPass,
     codigoVerificador: nanoid(),
+    role: {
+      nivel: 10,
+      descripcion: 'General',
+    },
   });
   // Enviar email de activación de cuenta
-  const err = await emailVerificar(
-    usuario.nombre,
-    usuario.email,
-    usuario.codigoVerificador
-  );
-  if (err)
-    return res
-      .status(500)
-      .send({ mensaje: 'No fue posible completar el registro.', error: err });
+  // const err = await emailVerificar(
+  //   usuario.nombre,
+  //   usuario.email,
+  //   usuario.codigoVerificador
+  // );
+  // if (err)
+  //   return res
+  //     .status(500)
+  //     .send({ mensaje: 'No fue posible completar el registro.', error: err });
   // Guardar usuario si no hay error de envío de email
   await usuario.save();
   res

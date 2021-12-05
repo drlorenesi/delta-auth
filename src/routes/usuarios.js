@@ -1,9 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const validar = require('../../middleware/validar');
-const auth = require('../../middleware/auth');
-const Usuario = require('../../models/usuario');
+const validar = require('../middleware/validar');
+const auth = require('../middleware/auth');
+const Usuario = require('../models/usuario');
 
 const router = express.Router();
 

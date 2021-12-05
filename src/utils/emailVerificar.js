@@ -2,7 +2,7 @@ const smtp = require('./smtp');
 
 module.exports = async (nombre, email, codigoVerificador) => {
   // Link de verificación de cuenta en Front End
-  let link = `${process.env.APP_URL}/verificar?x=${encodeURIComponent(
+  let link = `${process.env.APP_URL}verificar?x=${encodeURIComponent(
     email
   )}&y=${codigoVerificador}`;
 

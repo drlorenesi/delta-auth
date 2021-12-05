@@ -11,21 +11,20 @@ const mongoose = require('mongoose');
 // nivel 9: (pend)
 // nivel 10: General
 
-const roleSchema = new mongoose.Schema(
-  {
-    nivel: {
-      type: Number,
-      unique: true,
-      required: true,
-    },
-    descripcion: {
-      type: String,
-      maxLength: 255,
-      trim: true,
-      required: true,
-    },
+const roleSchema = new mongoose.Schema({
+  nivel: {
+    type: Number,
+    // unique: true,
+    required: true,
   },
-  { timestamps: true }
-);
+  descripcion: {
+    type: String,
+    maxLength: 255,
+    trim: true,
+    required: true,
+  },
+});
 
-module.exports = mongoose.model('Role', roleSchema);
+exports.roleSchema = roleSchema;
+exports.Role = mongoose.model('Role', roleSchema);
+// module.exports = mongoose.model('Role', roleSchema);

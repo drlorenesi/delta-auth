@@ -1,5 +1,8 @@
-// If you are using an `.env` file,
-// make sure it is on the same level as ecosystem.config.js file
+// - Sample 'ecosystem.config.js' file if you plan on running your
+//   app with PM2 (https://pm2.keymetrics.io/docs/usage/quick-start/)
+// - If you are using an `.env` file, make sure it is on the same
+//   level as ecosystem.config.js file
+
 module.exports = {
   apps: [
     {

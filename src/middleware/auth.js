@@ -2,11 +2,11 @@
 // autorizados para acceder a un recurso
 // Ejemplo: [auth([0, 1, 2, 3, ...])]
 const jwt = require('jsonwebtoken');
-const Session = require('../models/session');
-const Usuario = require('../models/usuario');
 const crearTokens = require('../utils/crearTokens');
 const crearCookies = require('../utils/crearCookies');
 const eliminarCookies = require('../utils/eliminarCookies');
+const Session = require('../models/session');
+const Usuario = require('../models/usuario');
 
 module.exports = (param) => {
   return async (req, res, next) => {
@@ -37,17 +37,17 @@ module.exports = (param) => {
         req.cookies.refreshToken,
         process.env.JWT_SIGNATURE
       );
-      // Obtener información sobre la sesión
+      // Buscar sesión
       const session = await Session.findOne({ sessionId });
-      if (!session || !session.valida) {
+      if (!session) {
         eliminarCookies(res);
         return res
           .status(401)
           .send({ mensaje: 'Acceso denegado. Por favor inicia sesión.' });
       }
-      // Si la sesión es válida, buscar a usuario
+      // Si existe sesión, buscar a usuario
       const usuario = await Usuario.findOne({ _id: session.usuario._id });
-      // Crear nuevos tokens
+      // Crear nuevos tokens ("Refresh")
       const { accessToken, refreshToken, sessionInfo } = crearTokens(
         sessionId,
         usuario
@@ -61,8 +61,8 @@ module.exports = (param) => {
       if (!param.includes(usuario.role.nivel))
         return res.status(403).send({ mensaje: 'Acceso denegado.' });
       next();
-      // 3. Si usuario no cuenta con token(s)
-      // ------------------------------------
+      // 3. Si usuario no cuenta con tokens
+      // ----------------------------------
     } else {
       return res
         .status(401)

@@ -1,7 +1,7 @@
 const nodemailer = require('nodemailer');
 
 // create reusable transporter object using the default SMTP transport
-const smtp = nodemailer.createTransport({
+module.exports = nodemailer.createTransport({
   host: process.env.MAIL_HOST,
   port: process.env.MAIL_PORT,
   secure: true, // true for 465, false for other ports
@@ -14,5 +14,3 @@ const smtp = nodemailer.createTransport({
     rejectUnauthorized: false,
   },
 });
-
-module.exports = smtp;
