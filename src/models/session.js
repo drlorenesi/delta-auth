@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const { roleSchema } = require('./role');
 
 const usuarioSchema = new mongoose.Schema({
   _id: { type: mongoose.ObjectId, required: true },
@@ -18,14 +19,8 @@ const usuarioSchema = new mongoose.Schema({
     required: true,
   },
   role: {
-    nivel: {
-      type: Number,
-      required: true,
-    },
-    descripcion: {
-      type: String,
-      required: true,
-    },
+    type: roleSchema,
+    required: true,
   },
 });
 
