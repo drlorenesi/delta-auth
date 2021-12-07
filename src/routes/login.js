@@ -1,7 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
 const { compare } = require('bcryptjs');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const crearSesion = require('../utils/crearSesion');
 const crearTokens = require('../utils/crearTokens');
 const crearCookies = require('../utils/crearCookies');
@@ -23,7 +23,7 @@ const validarLogin = (data) => {
 // 401 - Tu cuenta aun no ha sido verificada.
 // 403 - Tu cuenta se encuentra temporalmente suspendida.
 
-router.post('/', [validar(validarLogin)], async (req, res) => {
+router.post('/', [validateBody(validarLogin)], async (req, res) => {
   // 1. Verificar a Usuario
   // ----------------------
   // A. Buscar a usuario

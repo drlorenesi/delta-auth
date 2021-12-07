@@ -2,7 +2,7 @@ const express = require('express');
 const { nanoid } = require('nanoid');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const emailVerificar = require('../utils/emailVerificar');
 const Usuario = require('../models/usuario');
 
@@ -20,7 +20,7 @@ const validarRegistro = (data) => {
   return schema.validate(data);
 };
 
-router.post('/', [validar(validarRegistro)], async (req, res) => {
+router.post('/', [validateBody(validarRegistro)], async (req, res) => {
   // Revisar si el email ya está registrado
   const duplicado = await Usuario.findOne({
     email: req.body.email,

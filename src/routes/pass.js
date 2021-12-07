@@ -1,7 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
 const { genSalt, hash, compare } = require('bcryptjs');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
 const Usuario = require('../models/usuario');
 
@@ -19,7 +19,7 @@ const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 router.post(
   '/',
-  [auth(rolesAutorizados), validar(validarUpdate)],
+  [auth(rolesAutorizados), validateBody(validarUpdate)],
   async (req, res) => {
     // Revisar si concuerda contraseña original
     const resultado = await Usuario.findOne({

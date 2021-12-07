@@ -1,7 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const Joi = require('joi');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
 const Usuario = require('../models/usuario');
 
@@ -44,7 +44,7 @@ router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
 // PUT
 router.put(
   '/:id',
-  [auth(rolesAutorizados), validar(validarUsuario)],
+  [auth(rolesAutorizados), validateBody(validarUsuario)],
   async (req, res) => {
     // Check for valid ObjectId
     if (!mongoose.Types.ObjectId.isValid(req.params.id))

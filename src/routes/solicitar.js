@@ -1,7 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
 const { nanoid } = require('nanoid');
-const validate = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const emailReinicio = require('../utils/emailReinicio');
 const Usuario = require('../models/usuario');
 
@@ -14,7 +14,7 @@ const validateEmail = (data) => {
   return schema.validate(data);
 };
 
-router.post('/', [validate(validateEmail)], async (req, res) => {
+router.post('/', [validateBody(validateEmail)], async (req, res) => {
   // Buscar usuario y crear código de reinicio
   const usuario = await Usuario.findOneAndUpdate(
     { email: req.body.email },

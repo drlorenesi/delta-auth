@@ -1,6 +1,6 @@
 const express = require('express');
 const Joi = require('joi');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
 const Usuario = require('../models/usuario');
 
@@ -30,7 +30,7 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
 
 router.put(
   '/',
-  [auth(rolesAutorizados), validar(validarInfo)],
+  [auth(rolesAutorizados), validateBody(validarInfo)],
   async (req, res) => {
     let usuario = await Usuario.findById(res.locals.usuarioId);
     req.body?.nombre && (usuario.nombre = req.body.nombre);

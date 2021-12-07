@@ -1,7 +1,7 @@
 const express = require('express');
 const Joi = require('joi');
 const { genSalt, hash } = require('bcryptjs');
-const validar = require('../middleware/validar');
+const { validateBody } = require('../middleware/validar');
 const Usuario = require('../models/usuario');
 
 const router = express.Router();
@@ -16,7 +16,7 @@ const validarReinicio = (data) => {
 };
 
 // Query String intencionalmente *no* validada por motivos de seguridad
-router.post('/', [validar(validarReinicio)], async (req, res) => {
+router.post('/', [validateBody(validarReinicio)], async (req, res) => {
   // Buscar 'usuario' en DB
   const usuario = await Usuario.findOne({
     email: req.query.x,
