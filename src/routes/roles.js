@@ -83,7 +83,7 @@ router.put(
 // POST
 router.post(
   '/',
-  [auth(rolesAutorizados), validar(validarRole)],
+  [auth(rolesAutorizados), validateBody(validarRole)],
   async (req, res) => {
     // Revisar si el nivel ya fue utilizado
     const duplicado = await Role.find({ nivel: req.body.nivel });
