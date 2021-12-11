@@ -9,7 +9,7 @@
   "scripts": {
     "start": "ENTORNO=produccion node ./src/server.js",
     "dev": "ENTORNO=desarrollo nodemon ./src/server.js",
-    "setup": "node ./src/setup/createRoles.js",
+    "seed": "node ./src/setup/createRoles.js",
     "test": "ENTORNO=pruebas jest --watchAll --verbose --coverage --detectOpenHandles"
   },
   "repository": {
