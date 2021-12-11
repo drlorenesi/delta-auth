@@ -5,14 +5,14 @@ module.exports = function (accessToken, refreshToken, sessionInfo, res) {
     res
       .cookie('accessToken', accessToken, {
         // maxAge: 1000 * 60 * 60 * 1, // cookie será eliminada después de 1 hora
-        maxAge: 1000 * 60 * 5, // 5 min
+        maxAge: 1000 * 60 * process.env.ACCESTOKEN_MAX_AGE,
         httpOnly: true,
         secure: true,
         sameSite: 'none',
       })
       .cookie('refreshToken', refreshToken, {
         // maxAge: 1000 * 60 * 60 * 8, // cookie será eliminada después de 8 horas
-        maxAge: 1000 * 60 * 15, // 15 mins
+        maxAge: 1000 * 60 * process.env.REFRESHTOKEN_MAX_AGE,
         httpOnly: true,
         secure: true,
         sameSite: 'none',

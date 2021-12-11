@@ -16,6 +16,8 @@ Adicionalmente, debemos crea un archivo tipo `.env` en el folder raíz con la si
 JWT_SIGNATURE=
 APP_URL=https://localhost/ (en desarrollo)
 MONGO_URL=
+ACCESTOKEN_MAX_AGE= (tiempo en minutos)
+REFRESHTOKEN_MAX_AGE= (tiempo en minutos)
 
 # Opcional #
 SENTRY_URL=

@@ -11,4 +11,12 @@ module.exports = () => {
     console.error('ERROR TERMINAL: APP_URL no está definido.');
     process.exit(1);
   }
+  if (!process.env.ACCESTOKEN_MAX_AGE) {
+    console.error('ERROR TERMINAL: ACCESTOKEN_MAX_AGE no está definido.');
+    process.exit(1);
+  }
+  if (!process.env.REFRESHTOKEN_MAX_AGE) {
+    console.error('ERROR TERMINAL: REFRESHTOKEN_MAX_AGE no está definido.');
+    process.exit(1);
+  }
 };
