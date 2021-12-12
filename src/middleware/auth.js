@@ -1,6 +1,3 @@
-// Middleware que identifica a usuario y espera un array de 'roles'
-// autorizados para acceder a un recurso
-// Ejemplo: [auth([0, 1, 2, 3, ...])]
 const jwt = require('jsonwebtoken');
 const crearTokens = require('../utils/crearTokens');
 const crearCookies = require('../utils/crearCookies');
@@ -8,6 +5,9 @@ const eliminarCookies = require('../utils/eliminarCookies');
 const Session = require('../models/session');
 const Usuario = require('../models/usuario');
 
+// Middleware que identifica a usuario y espera un array de 'roles'
+// autorizados para acceder a un recurso
+// Ejemplo: [auth([0, 1, 2, 3, ...])]
 module.exports = (param) => {
   return async (req, res, next) => {
     // 1. Revisar si existe accessToken
@@ -47,6 +47,14 @@ module.exports = (param) => {
       }
       // Si existe sesión, buscar a usuario
       const usuario = await Usuario.findOne({ _id: session.usuario._id });
+      // Si usuario está suspendido eliminar session, eliminar ccookies y enviar mensaje 401
+      if (usuario.suspendido) {
+        await Session.deleteMany({ 'usuario._id': usuario._id });
+        eliminarCookies(res);
+        return res
+          .status(401)
+          .send({ mensaje: 'Acceso denegado. Por favor inicia sesión.' });
+      }
       // Crear nuevos tokens ("Refresh")
       const { accessToken, refreshToken, sessionInfo } = crearTokens(
         sessionId,

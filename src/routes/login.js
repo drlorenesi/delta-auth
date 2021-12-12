@@ -53,11 +53,9 @@ router.post('/', [validateBody(validarLogin)], async (req, res) => {
   await Usuario.findOneAndUpdate(
     { email: req.body.email },
     {
-      $set: {
-        ingresoActual: new Date(),
-        ultimoIngreso: usuario.ingresoActual,
-        codigoReinicio: null,
-      },
+      ingresoActual: new Date(),
+      ultimoIngreso: usuario.ingresoActual,
+      codigoReinicio: null,
     }
   );
   // B. Revisar si el usuario tiene sesiones activas

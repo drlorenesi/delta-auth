@@ -8,9 +8,9 @@ const router = express.Router();
 
 const validarInfo = (data) => {
   const schema = Joi.object({
-    nombre: Joi.string(),
-    apellido: Joi.string(),
-    extension: Joi.string(),
+    nombre: Joi.string().max(255).required(),
+    apellido: Joi.string().max(255).required(),
+    extension: Joi.string().max(255).required(),
   });
   return schema.validate(data);
 };
@@ -23,6 +23,10 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
     nombre: usuario.nombre,
     apellido: usuario.apellido,
     email: usuario.email,
+    role: {
+      nivel: usuario.role.nivel,
+      descripcion: usuario.role.descripcion,
+    },
     extension: usuario.extension,
     ultimoIngreso: usuario.ultimoIngreso,
   });
@@ -32,11 +36,12 @@ router.put(
   '/',
   [auth(rolesAutorizados), validateBody(validarInfo)],
   async (req, res) => {
-    let usuario = await Usuario.findById(res.locals.usuarioId);
-    req.body?.nombre && (usuario.nombre = req.body.nombre);
-    req.body?.apellido && (usuario.apellido = req.body.apellido);
-    req.body?.extension && (usuario.extension = req.body.extension);
-    await usuario.save();
+    const { nombre, apellido, extension } = req.body;
+    await Usuario.findByIdAndUpdate(res.locals.usuarioId, {
+      nombre,
+      apellido,
+      extension,
+    });
     res.send({ mensaje: 'Perfil actualizado.' });
   }
 );

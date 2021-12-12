@@ -28,8 +28,8 @@ router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res
-      .status(404)
-      .send({ mensaje: 'El recurso solicitado no existe.' });
+      .status(400)
+      .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
   // Buscar el role
   const role = await Role.findById(req.params.id);
   // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
@@ -48,8 +48,8 @@ router.put(
     // Validar ObjectId
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
       return res
-        .status(404)
-        .send({ mensaje: 'El recurso solicitado no existe.' });
+        .status(400)
+        .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
     // Buscar el role a actualizar
     let role = await Role.findById(req.params.id);
     // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
@@ -59,7 +59,6 @@ router.put(
         .send({ mensaje: 'El recurso solicitado no existe.' });
     // Si el nivel es el mismo, proceder a actualizar
     if (parseInt(req.body.nivel, 10) === role.nivel) {
-      console.log('here');
       role = await Role.findByIdAndUpdate(req.params.id, req.body, {
         new: true,
       });
@@ -72,11 +71,6 @@ router.put(
         .status(400)
         .send({ mensaje: 'El nivel ya se encuentra en uso.' });
     }
-    // Actualizar role
-    role = await Role.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    return res.send(role);
   }
 );
 
@@ -103,13 +97,13 @@ router.delete('/:id', [auth(rolesAutorizados)], async (req, res) => {
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
     return res
       .status(400)
-      .send({ mensaje: 'El recurso solicitado no existe.' });
+      .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
   // Si el role existe, eliminar
   const role = await Role.findByIdAndDelete(req.params.id);
   // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
   if (!role)
     return res
-      .status(400)
+      .status(404)
       .send({ mensaje: 'El recurso solicitado no existe.' });
   res.send(role);
 });

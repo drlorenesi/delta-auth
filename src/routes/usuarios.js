@@ -4,19 +4,14 @@ const Joi = require('joi');
 const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
 const Usuario = require('../models/usuario');
+const { Role } = require('../models/role');
 
 const router = express.Router();
 
-// PENDIENTE DE IMPLEMENTAR
-// PENDIENTE DE IMPLEMENTAR
-// PENDIENTE DE IMPLEMENTAR
-// PENDIENTE DE IMPLEMENTAR
-
 const validarUsuario = (data) => {
   const schema = Joi.object({
-    nombre: Joi.string().min(2).required(),
-    apellido: Joi.string().min(2).required(),
-    email: Joi.string().email(),
+    roleId: Joi.string().alphanum().length(24).required(),
+    suspendido: Joi.boolean().required(),
   });
   return schema.validate(data);
 };
@@ -31,13 +26,17 @@ router.get('/', [auth(rolesAutorizados)], async (req, res) => {
 
 // GET
 router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
-  // Check for valid ObjectId
+  // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(400).send({ message: 'The resource does not exist.' });
+    return res
+      .status(400)
+      .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
   const usuario = await Usuario.findById(req.params.id);
-  // If usuario does not exists return 404 error
+  // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
   if (!usuario)
-    return res.status(400).send({ message: 'The resource does not exist.' });
+    return res
+      .status(404)
+      .send({ mensaje: 'El recurso solicitado no existe.' });
   res.send(usuario);
 });
 
@@ -46,18 +45,29 @@ router.put(
   '/:id',
   [auth(rolesAutorizados), validateBody(validarUsuario)],
   async (req, res) => {
-    // Check for valid ObjectId
+    // Validar ObjectId
     if (!mongoose.Types.ObjectId.isValid(req.params.id))
-      return res.status(400).send({ message: 'The resource does not exist.' });
-    // Check if usuario exists
-    let usuario = await Usuario.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    });
-    // If usuario does not exists return 404 error
+      return res
+        .status(400)
+        .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
+    // Verificar si existe usuario
+    let usuario = await Usuario.findById(req.params.id);
+    // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
     if (!usuario)
-      return res.status(400).send({ message: 'The resource does not exist.' });
-    // Update Document
-    res.send(usuario);
+      return res
+        .status(404)
+        .send({ mensaje: 'El recurso solicitado no existe.' });
+    // Verificar si existe role
+    let role = await Role.findById(req.body.roleId);
+    if (!role)
+      return res.status(400).send({ mensaje: 'El Id del role no es válido.' });
+    // Actualizar recurso
+    const update = await Usuario.findByIdAndUpdate(
+      req.params.id,
+      { role, suspendido: req.body.suspendido },
+      { new: true }
+    );
+    res.send(update);
   }
 );
 
@@ -65,14 +75,18 @@ router.put(
 
 // DELETE
 router.delete('/:id', [auth(rolesAutorizados)], async (req, res) => {
-  // Check for valid ObjectId
+  // Validar ObjectId
   if (!mongoose.Types.ObjectId.isValid(req.params.id))
-    return res.status(400).send({ message: 'The resource does not exist.' });
-  // Check if usuario exists to delete
+    return res
+      .status(400)
+      .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
+  // Verificar si existe usuario
   const usuario = await Usuario.findByIdAndDelete(req.params.id);
-  // If usuario does not exists return 404 error
+  // Si el ObjectId es válido pero el role no existe, retornar error tipo 404
   if (!usuario)
-    return res.status(400).send({ message: 'The resource does not exist.' });
+    return res
+      .status(404)
+      .send({ mensaje: 'El recurso solicitado no existe.' });
   res.send(usuario);
 });
 
