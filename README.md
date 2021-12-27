@@ -1,4 +1,4 @@
-# Node Auth
+# Delta Auth
 
 Aplicación básica para autenticar y crear sesiones de usuarios que utiliza [Express](https://expressjs.com/) y [MongoDB](https://www.mongodb.com/).
 
