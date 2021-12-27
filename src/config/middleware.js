@@ -9,9 +9,7 @@ const corsOptions = {
   origin: [
     /127.0.0.1/,
     /localhost/,
-    /app.dev/,
-    /granada47.com/,
-    /deltacold.com/,
+    `/${process.env.ORIGIN}/`
   ],
   credentials: true,
 };
