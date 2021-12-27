@@ -15,6 +15,7 @@ const roles = require('../routes/roles');
 // Utils
 const email = require('../routes/email');
 const check = require('../routes/check');
+const estado = require('../routes/estado');
 const debug = require('../routes/debug');
 
 module.exports = (app) => {
@@ -35,5 +36,6 @@ module.exports = (app) => {
   // Utils
   app.use('/v1/email', email);
   app.use('/v1/check', check);
+  app.use('/v1/estado', estado);
   app.use('/v1/debug', debug);
 };
