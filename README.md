@@ -14,8 +14,7 @@ Adicionalmente, debemos crea un archivo tipo `.env` en el folder raíz con la si
 
 ```text
 JWT_SIGNATURE=
-ORIGIN= (ej. mysitio.com)
-FRONTEND_URL= (http://localhost:3000 en desarrollo)
+ORIGIN= (ej. mysitio.com ó localhost:3000 en desarrollo)
 ACCESTOKEN_MAX_AGE= (tiempo en minutos)
 REFRESHTOKEN_MAX_AGE= (tiempo en minutos)
 MONGO_URL=
