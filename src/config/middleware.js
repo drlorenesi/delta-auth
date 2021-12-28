@@ -5,8 +5,10 @@ const cors = require('cors');
 const helmet = require('helmet');
 const compression = require('compression');
 
+let origin = new RegExp(`${process.env.ORIGIN}`);
+
 const corsOptions = {
-  origin: [`/${process.env.ORIGIN}/`],
+  origin: [origin],
   credentials: true,
 };
 
