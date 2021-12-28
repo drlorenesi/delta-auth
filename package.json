@@ -4,8 +4,8 @@
   "description": "Express authentication template.",
   "main": "index.js",
   "engines": {
-    "npm": ">=8.0.0 <9",
-    "node": ">=16.0.0 <17"
+    "npm": ">=8.0.0",
+    "node": ">=16.0.0"
   },
   "scripts": {
     "start": "ENTORNO=produccion node ./src/server.js",
