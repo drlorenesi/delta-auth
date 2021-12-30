@@ -8,9 +8,9 @@ const reinicio = require('../routes/reinicio');
 // Perfil
 const perfil = require('../routes/perfil');
 const cambioPass = require('../routes/cambioPass');
-// Usuarios
+// Admin
 const usuarios = require('../routes/usuarios');
-// Roles
+const sesiones = require('../routes/sesiones');
 const roles = require('../routes/roles');
 // Utils
 const estado = require('../routes/estado');
@@ -29,9 +29,9 @@ module.exports = (app) => {
   // Perfil
   app.use('/v1/perfil', perfil);
   app.use('/v1/cambio-pass', cambioPass);
-  // Usuarios
+  // Admin
   app.use('/v1/usuarios', usuarios);
-  // Roles
+  app.use('/v1/sesiones', sesiones);
   app.use('/v1/roles', roles);
   // Utils
   app.use('/v1/estado', estado);

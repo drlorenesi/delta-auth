@@ -26,7 +26,7 @@ router.post('/', [validateBody(validarRegistro)], async (req, res) => {
     email: req.body.email,
   });
   if (duplicado)
-    return res.status(400).send({ mensaje: 'Por favor usar otro email.' });
+    return res.status(400).send({ mensaje: 'Por favor usa otro email.' });
   // Generar Salt y Hash a pass
   const salt = await genSalt(10);
   const hashedPass = await hash(req.body.pass, salt);

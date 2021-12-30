@@ -9,8 +9,12 @@ const router = express.Router();
 
 const validarUpdate = (data) => {
   const schema = Joi.object({
-    passVieja: Joi.string().required(),
+    passActual: Joi.string().required(),
     passNueva: Joi.string().min(3).required(),
+    confirmPass: Joi.any()
+      .valid(Joi.ref('passNueva'))
+      .required()
+      .options({ messages: { 'any.only': 'passwords do not match' } }),
   });
   return schema.validate(data);
 };
@@ -21,12 +25,23 @@ router.post(
   '/',
   [auth(rolesAutorizados), validateBody(validarUpdate)],
   async (req, res) => {
-    // Revisar si concuerda contraseña original
-    const resultado = await Usuario.findOne({
+    // Revisar si concuerda contraseña actual de usuario
+    const usuario = await Usuario.findOne({
       _id: res.locals.usuarioId,
     });
-    const concuerda = await compare(req.body.passVieja, resultado.pass);
-    // Generar Salt y Hash para nueva contraseña
+    // Revisar que concuerde la contraseña actual de usuario
+    const concuerda = await compare(req.body.passActual, usuario.pass);
+    if (!concuerda)
+      return res.status(400).send({
+        mensaje: 'Tu contraseña actual no concuerda.',
+      });
+    // Revisar que la nueva contraseña no sea igual a la actual
+    const igual = await compare(req.body.passNueva, usuario.pass);
+    if (igual)
+      return res.status(400).send({
+        mensaje: 'Tu contraseña nueva no puede ser igual a la actual.',
+      });
+    // Proceder a actualizar contraseña
     if (concuerda) {
       const salt = await genSalt(10);
       const hashedPass = await hash(req.body.passNueva, salt);
@@ -35,10 +50,6 @@ router.post(
         { pass: hashedPass }
       );
       res.send({ mensaje: 'Tu contraseña fue modificada existosamente!' });
-    } else {
-      return res
-        .status(400)
-        .send({ mensaje: 'Tu contraseña anterior no concuerda.' });
     }
   }
 );
