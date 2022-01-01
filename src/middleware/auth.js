@@ -7,7 +7,7 @@ const Usuario = require('../models/usuario');
 
 // Middleware que identifica a usuario y espera un array de 'roles'
 // autorizados para acceder a un recurso
-// Ejemplo: [auth([0, 1, 2, 3, ...])]
+// Ejemplo: [auth([1, 2, 3, ...])]
 module.exports = (param) => {
   return async (req, res, next) => {
     // 1. Revisar si existe accessToken

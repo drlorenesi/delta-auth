@@ -1,5 +1,5 @@
 const express = require('express');
-const mongoose = require('mongoose');
+const { isValidObjectId } = require('mongoose');
 const Joi = require('joi');
 const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
@@ -15,18 +15,19 @@ const validarRole = (data) => {
   return schema.validate(data);
 };
 
+const usuarioConsulta = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 const rolesAutorizados = [0];
 
 // GET
-router.get('/', [auth(rolesAutorizados)], async (req, res) => {
+router.get('/', [auth(usuarioConsulta)], async (req, res) => {
   const roles = await Role.find();
   res.send(roles);
 });
 
 // GET
-router.get('/:id', [auth(rolesAutorizados)], async (req, res) => {
+router.get('/:id', [auth(usuarioConsulta)], async (req, res) => {
   // Validar ObjectId
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  if (!isValidObjectId(req.params.id))
     return res
       .status(400)
       .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
@@ -46,7 +47,7 @@ router.put(
   [auth(rolesAutorizados), validateBody(validarRole)],
   async (req, res) => {
     // Validar ObjectId
-    if (!mongoose.Types.ObjectId.isValid(req.params.id))
+    if (!isValidObjectId(req.params.id))
       return res
         .status(400)
         .send({ mensaje: 'El Id del recurso solicitado no es válido.' });
@@ -94,7 +95,7 @@ router.post(
 // DELETE
 router.delete('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
-  if (!mongoose.Types.ObjectId.isValid(req.params.id))
+  if (!isValidObjectId(req.params.id))
     return res
       .status(400)
       .send({ mensaje: 'El Id del recurso solicitado no es válido.' });

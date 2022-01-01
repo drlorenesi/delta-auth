@@ -3,12 +3,12 @@ const connect = require('../config/db');
 const { Role } = require('../models/role');
 
 const roles = [
-  { nivel: 0, descripcion: 'Administrador' },
-  { nivel: 1, descripcion: 'Gerencia' },
-  { nivel: 2, descripcion: 'Contabilidad' },
-  { nivel: 3, descripcion: 'Producción' },
-  { nivel: 4, descripcion: 'Ventas' },
-  { nivel: 5, descripcion: 'Inventarios' },
+  { nivel: 1, descripcion: 'Administrador' },
+  { nivel: 2, descripcion: 'Gerencia' },
+  { nivel: 3, descripcion: 'Contabilidad' },
+  { nivel: 4, descripcion: 'Producción' },
+  { nivel: 5, descripcion: 'Ventas' },
+  { nivel: 6, descripcion: 'Inventarios' },
   { nivel: 10, descripcion: 'General' },
 ];
 

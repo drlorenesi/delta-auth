@@ -19,7 +19,7 @@ const validarUpdate = (data) => {
   return schema.validate(data);
 };
 
-const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const rolesAutorizados = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 router.post(
   '/',

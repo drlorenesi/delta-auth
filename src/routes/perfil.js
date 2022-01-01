@@ -1,10 +1,9 @@
 const express = require('express');
 const Joi = require('joi');
-const { isValidObjectId } = require('mongoose');
 const { validateBody } = require('../middleware/validar');
 const auth = require('../middleware/auth');
 const Usuario = require('../models/usuario');
-// const { Role } = require('../models/Role');
+const { Role } = require('../models/role');
 var pick = require('lodash/pick');
 
 const router = express.Router();
@@ -15,12 +14,12 @@ const validarInfo = (data) => {
     apellido: Joi.string().min(2).max(255).required(),
     extension: Joi.string().max(255).allow('', null),
     email: Joi.string().email(),
-    role: Joi.string(),
+    role: Joi.number().integer().max(10),
   });
   return schema.validate(data);
 };
 
-const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const rolesAutorizados = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 router.get('/', [auth(rolesAutorizados)], async (req, res) => {
   const usuario = await Usuario.findById(res.locals.usuarioId);
@@ -44,8 +43,8 @@ router.put(
   async (req, res) => {
     const { nombre, apellido, extension, role } = req.body;
 
-    if (!isValidObjectId(role))
-      return res.status(400).send({ mensaje: 'Id de Role es inválido' });
+    const newRole = await Role.findOne({ nivel: role });
+    console.log(newRole);
 
     const actualizado = await Usuario.findByIdAndUpdate(
       res.locals.usuarioId,
@@ -53,6 +52,7 @@ router.put(
         nombre,
         apellido,
         extension,
+        role: newRole,
       },
       { new: true }
     );

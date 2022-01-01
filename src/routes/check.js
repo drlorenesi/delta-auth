@@ -4,7 +4,7 @@ const Usuario = require('../models/usuario');
 
 const router = express.Router();
 
-const rolesAutorizados = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+const rolesAutorizados = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 
 router.get('/', [auth(rolesAutorizados)], async (req, res) => {
   // usuarioId es obtenido en el middleware 'auth'
