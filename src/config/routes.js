@@ -12,6 +12,8 @@ const cambioPass = require('../routes/cambioPass');
 const usuarios = require('../routes/admin/usuarios');
 const sesiones = require('../routes/admin/sesiones');
 const roles = require('../routes/admin/roles');
+const suspender = require('../routes/admin/suspender');
+const reactivar = require('../routes/admin/reactivar');
 // Utils
 const estado = require('../routes/utils/estado');
 const email = require('../routes/utils/email');
@@ -33,6 +35,8 @@ module.exports = (app) => {
   app.use('/v1/admin/usuarios', usuarios);
   app.use('/v1/admin/sesiones', sesiones);
   app.use('/v1/admin/roles', roles);
+  app.use('/v1/admin/suspender', suspender);
+  app.use('/v1/admin/reactivar', reactivar);
   // Utils
   app.use('/v1/utils/estado', estado);
   app.use('/v1/utils/email', email);
