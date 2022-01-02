@@ -9,14 +9,14 @@ const reinicio = require('../routes/reinicio');
 const perfil = require('../routes/perfil');
 const cambioPass = require('../routes/cambioPass');
 // Admin
-const usuarios = require('../routes/usuarios');
-const sesiones = require('../routes/sesiones');
-const roles = require('../routes/roles');
+const usuarios = require('../routes/admin/usuarios');
+const sesiones = require('../routes/admin/sesiones');
+const roles = require('../routes/admin/roles');
 // Utils
-const estado = require('../routes/estado');
-const email = require('../routes/email');
-const check = require('../routes/check');
-const debug = require('../routes/debug');
+const estado = require('../routes/utils/estado');
+const email = require('../routes/utils/email');
+const check = require('../routes/utils/check');
+const debug = require('../routes/utils/debug');
 
 module.exports = (app) => {
   // Generales
@@ -30,12 +30,12 @@ module.exports = (app) => {
   app.use('/v1/perfil', perfil);
   app.use('/v1/cambio-pass', cambioPass);
   // Admin
-  app.use('/v1/usuarios', usuarios);
-  app.use('/v1/sesiones', sesiones);
-  app.use('/v1/roles', roles);
+  app.use('/v1/admin/usuarios', usuarios);
+  app.use('/v1/admin/sesiones', sesiones);
+  app.use('/v1/admin/roles', roles);
   // Utils
-  app.use('/v1/estado', estado);
-  app.use('/v1/email', email);
-  app.use('/v1/check', check);
-  app.use('/v1/debug', debug);
+  app.use('/v1/utils/estado', estado);
+  app.use('/v1/utils/email', email);
+  app.use('/v1/utils/check', check);
+  app.use('/v1/utils/debug', debug);
 };

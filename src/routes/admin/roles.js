@@ -1,9 +1,9 @@
 const express = require('express');
 const { isValidObjectId } = require('mongoose');
 const Joi = require('joi');
-const { validateBody } = require('../middleware/validar');
-const auth = require('../middleware/auth');
-const { Role } = require('../models/role');
+const { validateBody } = require('../../middleware/validar');
+const auth = require('../../middleware/auth');
+const { Role } = require('../../models/role');
 
 const router = express.Router();
 
@@ -16,7 +16,7 @@ const validarRole = (data) => {
 };
 
 const usuarioConsulta = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
-const rolesAutorizados = [0];
+const rolesAutorizados = [1];
 
 // GET
 router.get('/', [auth(usuarioConsulta)], async (req, res) => {
