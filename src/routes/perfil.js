@@ -44,7 +44,8 @@ router.put(
     const { nombre, apellido, extension, role } = req.body;
 
     const newRole = await Role.findOne({ nivel: role });
-    console.log(newRole);
+    if (!role)
+      return res.status(400).send({ mensaje: 'El Id del role no es válido.' });
 
     const actualizado = await Usuario.findByIdAndUpdate(
       res.locals.usuarioId,

@@ -10,8 +10,11 @@ const router = express.Router();
 
 const validarUsuario = (data) => {
   const schema = Joi.object({
-    roleId: Joi.string().alphanum().length(24).required(),
-    suspendido: Joi.boolean().required(),
+    nombre: Joi.string().min(2).max(255).required(),
+    apellido: Joi.string().min(2).max(255).required(),
+    extension: Joi.string().max(255).allow('', null),
+    email: Joi.string().email(),
+    role: Joi.number().integer().max(10),
   });
   return schema.validate(data);
 };
@@ -47,6 +50,8 @@ router.put(
   '/:id',
   [auth(rolesAutorizados), validateBody(validarUsuario)],
   async (req, res) => {
+    const { nombre, apellido, extension, role } = req.body;
+
     // Validar ObjectId
     if (!isValidObjectId(req.params.id))
       return res
@@ -59,17 +64,23 @@ router.put(
       return res
         .status(404)
         .send({ mensaje: 'El recurso solicitado no existe.' });
+
     // Verificar si existe role
-    let role = await Role.findById(req.body.roleId);
+    const newRole = await Role.findOne({ nivel: role });
     if (!role)
       return res.status(400).send({ mensaje: 'El Id del role no es válido.' });
     // Actualizar recurso
-    const update = await Usuario.findByIdAndUpdate(
+    const actualizado = await Usuario.findByIdAndUpdate(
       req.params.id,
-      { role, suspendido: req.body.suspendido },
+      {
+        nombre,
+        apellido,
+        extension,
+        role: newRole,
+      },
       { new: true }
     );
-    res.send(update);
+    res.send(actualizado);
   }
 );
 
