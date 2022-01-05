@@ -29,4 +29,4 @@ function validateQuery(validatorFn) {
   };
 }
 
-module.exports = { validateBody, validateQuery, validateParams };
+module.exports = { validateBody, validateParams, validateQuery };

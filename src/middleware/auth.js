@@ -47,7 +47,7 @@ module.exports = (param) => {
       }
       // Si existe sesión, buscar a usuario
       const usuario = await Usuario.findOne({ _id: session.usuario._id });
-      // Si usuario está suspendido eliminar session, eliminar ccookies y enviar mensaje 401
+      // Si usuario está suspendido eliminar session, eliminar cookies y enviar mensaje 401
       if (usuario.suspendido) {
         await Session.deleteMany({ 'usuario._id': usuario._id });
         eliminarCookies(res);

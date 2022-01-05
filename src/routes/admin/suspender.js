@@ -7,8 +7,8 @@ const router = express.Router();
 
 const rolesAutorizados = [1];
 
-// PUT
-router.put('/:id', [auth(rolesAutorizados)], async (req, res) => {
+// POST
+router.post('/:id', [auth(rolesAutorizados)], async (req, res) => {
   // Validar ObjectId
   if (!isValidObjectId(req.params.id))
     return res
